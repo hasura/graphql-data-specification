@@ -569,13 +569,13 @@ query {
   "affected_rows": 3,
   "returning": [
     { "status": .. },
-</details>
-
     { "status": .. },
     { "status": .. },
   }
 }
 ```
+
+</details>
 
 ##### Delete a row by its primary key
 
@@ -1039,7 +1039,9 @@ options:
    the table.
 3. `limit`: The number of rows that can be fetched at a time.
 4. `allowed_query_root_fields`: The querying capabilities that are exposed.
-5. `allowed_subscription_root_fields`:
+5. `allowed_subscription_root_fields`: TODO
+
+Example: TODO
 
 #### Delete Permission
 
@@ -1049,6 +1051,8 @@ options:
 
 1. `filter`: Only rows matching this predicate are allowed to be deleted from
    the table.
+
+Example: TODO
 
 #### Update  Permission
 
@@ -1060,3 +1064,14 @@ following options:
 1. `presets`: Static or runtime presets for columns.
 1. `filter`: Only rows matching this predicate are allowed to be updated from the table.
 1. `check`: The condition that the updated row must satisfy.
+
+Example: TODO
+
+## API Specification
+
+TODO. This would talk about the schema that is generated for each of the above
+operations.
+
+## Reference documentation
+
+TODO
