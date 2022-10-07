@@ -939,3 +939,41 @@ would return
 }
 ```
 
+### Permissions
+
+Permissions are used to restrict access to data stored in entities and is
+managed through a system of 'roles'. A 'role' can be a considered a label for a
+set of users who have similar access to data.
+
+#### Select Permission
+
+A select permission for a role 'r' on an entity 'e' specifies the data that can
+be fetched from the entity by the role. Select permission provides the following
+options:
+
+1. `columns`: The columns of the table that are allowed to be selected.
+2. `filter`: Only rows matching this predicate are allowed to be fetched from
+   the table.
+3. `limit`: The number of rows that can be fetched at a time.
+4. `allowed_query_root_fields`: The querying capabilities that are exposed.
+5. `allowed_subscription_root_fields`:
+
+#### Delete Permission
+
+A delete permission for a role 'r' on a table 't' specifies the data that can
+be deleted from the entity by the role. Delete permission provides the following
+options:
+
+1. `filter`: Only rows matching this predicate are allowed to be deleted from
+   the table.
+
+#### Update  Permission
+
+An update permission for a role 'r' on a table 't' specifies constraints on the
+table's data that be updated by the role. Update permission provides the
+following options:
+
+1. `columns`: The columns of the table that are allowed to be updated.
+1. `presets`: Static or runtime presets for columns.
+1. `filter`: Only rows matching this predicate are allowed to be updated from the table.
+1. `check`: The condition that the updated row must satisfy.
