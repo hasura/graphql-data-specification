@@ -57,7 +57,8 @@ query {
 }
 ```
 
-would return with
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -69,6 +70,8 @@ would return with
   }
 }
 ```
+
+</details>
 
 ##### Generic fetch from an entity
 
@@ -86,6 +89,9 @@ query {
 
 would return all the rows in the `track` table.
 
+<details>
+  <summary>Response</summary>
+
 ```json
 {
   "data": {
@@ -100,9 +106,12 @@ would return all the rows in the `track` table.
       },
       ...
     ]
+
   }
 }
 ```
+
+</details>
 
 Additionally,
 
@@ -117,7 +126,8 @@ Additionally,
    }
    ```
 
-   would return
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
@@ -132,6 +142,8 @@ Additionally,
    }
    ```
 
+   </details>
+
 2. An 'order by' clause (§expression.table.order_by) can be used to order
    the rows in the result set
 
@@ -144,13 +156,13 @@ Additionally,
    }
    ```
 
-   would return
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
      "data": {
        "albums": [
-
          {
            "id": 347,
            "title": "Koyaanisqatsi (Soundtrack from the Motion Picture)"
@@ -165,6 +177,8 @@ Additionally,
    }
    ```
 
+   </details>
+
 3. 'limit' (§table.expression.limit) and 'offset'
    (§expression.table.offset), togther with 'order_by'
    (§expression.table.order_by) can be used to paginate the result set.
@@ -178,7 +192,8 @@ Additionally,
    }
    ```
 
-   would return
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
@@ -193,6 +208,8 @@ Additionally,
    }
    ```
 
+   </details>
+
    `offset` can be used to paginate the data:
 
    ```graphql
@@ -204,7 +221,8 @@ Additionally,
    }
    ```
 
-   would return
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
@@ -218,6 +236,8 @@ Additionally,
      }
    }
    ```
+
+   </details>
 
 ##### Fetching aggregated data from a table
 
@@ -237,7 +257,8 @@ query {
 }
 ```
 
-would return
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -250,6 +271,8 @@ would return
   }
 }
 ```
+
+</details>
 
 You can also use aggregation functions that operate on columns. For example,
 
@@ -267,6 +290,10 @@ query {
 
 would fetch the max, min and sum of 'duration' of each track in the album.
 
+
+<details>
+  <summary>Response</summary>
+
 ```json
 {
   "data": {
@@ -280,6 +307,8 @@ would fetch the max, min and sum of 'duration' of each track in the album.
   }
 }
 ```
+
+</details>
 
 The rows that were used in the aggregation can also be fetched alongside the
 aggregated data:
@@ -300,7 +329,8 @@ query {
 }
 ```
 
-would return
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -336,6 +366,8 @@ would return
 }
 ```
 
+</details>
+
 #### Mutations
 
 ##### Inserting a row into a table
@@ -358,13 +390,16 @@ mutation {
 }
 ```
 
-would return:
+<details>
+  <summary>Response</summary>
 
 ```json
 {
   "id": 121
 }
 ```
+
+</details>
 
 ##### Insert several rows into a table
 
@@ -392,7 +427,8 @@ mutation {
 }
 ```
 
-would return:
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -403,6 +439,8 @@ would return:
   ]
 }
 ```
+
+</details>
 
 ##### Update a row by its primary key
 
@@ -419,13 +457,16 @@ query {
 }
 ```
 
-would return with
+<details>
+  <summary>Response</summary>
 
 ```json
 {
   "name": "hello"
 }
 ```
+
+</details>
 
 `_set` 'operator' allows setting the value of a column. There are other
 operators such as `_inc`, `_mul` etc to operate on the existing value of a
@@ -439,13 +480,16 @@ query {
 }
 ```
 
-would return with
+<details>
+  <summary>Response</summary>
 
 ```json
 {
   "visit_count": 793
 }
 ```
+
+</details>
 
 
 ##### Update several rows by boolean predicate
@@ -471,7 +515,9 @@ query {
 }
 ```
 
-would return with
+
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -484,6 +530,7 @@ would return with
   }
 }
 ```
+</details>
 
 ##### Batch updates across several rows
 
@@ -511,13 +558,16 @@ query {
 }
 ```
 
-would return with
+<details>
+  <summary>Response</summary>
 
 ```json
 {
   "affected_rows": 3,
   "returning": [
     { "status": .. },
+</details>
+
     { "status": .. },
     { "status": .. },
   }
@@ -539,13 +589,16 @@ query {
 }
 ```
 
-would return with
+<details>
+  <summary>Response</summary>
 
 ```json
 {
   "name": "hello"
 }
 ```
+
+</details>
 
 ##### Delete rows that match a primary key
 
@@ -570,7 +623,9 @@ query {
 }
 ```
 
-would return with
+
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -583,6 +638,8 @@ would return with
   }
 }
 ```
+
+</details>
 
 ### Relationships
 
@@ -623,7 +680,8 @@ query {
 }
 ```
 
-would return
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -639,6 +697,8 @@ would return
   }
 }
 ```
+
+</details>
 
 This isn't tied to a single operation, any operation which returns 'track'
 data can also return the associated album's data. For example:
@@ -687,7 +747,8 @@ query {
 }
 ```
 
-would return
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -704,13 +765,15 @@ would return
 }
 ```
 
+</details>
+
 ##### Ordering using related data
 
 (§expression.table.order-by.object-relationship)
 
 Related data can be used to order data from a table.
 
-For example, the following query returns albums ordered by the album's artist's
+Example: The following query returns albums ordered by the album's artist's
 name.
 
 ```graphql
@@ -751,7 +814,9 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
-   would return
+
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
@@ -776,6 +841,8 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
+   </details>
+
    Given that an array relationship returns a list of items, it has the similar
    API as a select statement to filter, order and paginate through them.
 
@@ -790,7 +857,9 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
-   returns
+
+   <details>
+     <summary>Response</summary>
 
    ```json
    {
@@ -808,6 +877,8 @@ Once an array relationship is defined, the API is augmented as follows:
      }
    }
    ```
+
+   </details>
 
    The following query fetches the longest 3 tracks of all albums:
 
@@ -827,7 +898,7 @@ Once an array relationship is defined, the API is augmented as follows:
    relationship has a corresponding `aggregate` field to fetched aggregated
    data.
 
-   For example, the following query fetches all albums and each album's track
+   Example: The following query fetches all albums and each album's track
    count and total runtime.
 
    ```graphql
@@ -862,7 +933,8 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
-   returns
+   <details>
+      <summary>Response</summary>
 
    ```json
    {
@@ -879,6 +951,8 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
+   </details>
+
 1. §expression.table.filter.array-relationship-aggregate: Aggregated related
    data can be used to filter data from a table.
 
@@ -893,8 +967,8 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
-   would return
-
+<details>
+  <summary>Response</summary>
 
    ```json
    {
@@ -911,6 +985,8 @@ Once an array relationship is defined, the API is augmented as follows:
    }
    ```
 
+</details>
+
 ##### Ordering using related data
 
 Aggregated array relationship data can be used to order data from a table.
@@ -925,7 +1001,9 @@ query {
 }
 ```
 
-would return
+
+<details>
+  <summary>Response</summary>
 
 ```json
 {
@@ -938,6 +1016,8 @@ would return
   }
 }
 ```
+
+</details>
 
 ### Permissions
 
