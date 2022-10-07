@@ -4,20 +4,23 @@ of an Entity Data Model (EDM).
 
 ## Data Model
 
-This section provides a high-level description of the Hasura Data Model (HDM):
+This section provides a high-level description of the Entity Data Model (EDM):
 the abstract data model which forms the basis for the GraphQL API. The central
-concepts in the HDM are entities, relationships and permissions.
+concepts in the EDM are EntityStores, Relationships and Permissions.
 
-### Entity
+### EntityStore
 
-An 'entity' is where data is typically stored, modified and retrived from a
-database. On relational databases, 'tables' and table like objects such as
-views and materialized views are entities, on a document database such as
-Mongo, 'collections' would be considered as entities. Currently as the spec
-focuses only on relational databases, the terms 'entities' and 'tables' are
+An 'EntityStore' is where data is typically stored, modified and retrived from
+a database. On relational databases, 'tables' and table like objects such as
+views and materialized views are EntityStores, on a document database such as
+Mongo, 'collections' would be considered as EntityStores. Currently as the spec
+focuses only on relational databases, the terms 'EntityStores' and 'tables' are
 used interchangeably but this could change in future versions.
 
-We'll assume the following schema for the rest of the sections:
+An 'Entity' is logical unit of data stored in an 'EntityStore'. On EntityStores
+such as tables, a 'row' is an entity and in an 'EntityStore' such as a MongoDB
+collection, a 'document' is an entity.
+database
 
 ```sql
 create table artists (
@@ -37,7 +40,7 @@ create table tracks (
 );
 ```
 
-The following operations are defined over an entity:
+The following operations are defined over an EntityStore:
 
 #### Queries
 
@@ -45,7 +48,7 @@ The following operations are defined over an entity:
 
 (§query.table.select-by-pk)
 
-If an entity has a primary key defined, this allows fetching a specific row by
+If a table has a primary key defined, this allows fetching a specific row by
 providing the primary key of the row:
 
 ```graphql
@@ -73,11 +76,11 @@ query {
 
 </details>
 
-##### Generic fetch from an entity
+##### General purpose fetch
 
 (§query.table.select)
 
-Allows fetching zero or more 'rows' of the table.
+Allows fetching zero or more 'rows' of a table.
 
 ```graphql
 query {
@@ -372,7 +375,7 @@ query {
 
 ##### Inserting a row into a table
 
-(§table.query.insert_one)
+(§mutation.table.insert_one)
 
 Inserts a row in a table. The inserted data can be fetched as part of the
 response. This is very useful in cases where you have an auto-generated id.
@@ -403,7 +406,7 @@ mutation {
 
 ##### Insert several rows into a table
 
-(§table.query.insert_many)
+(§mutation.table.insert_many)
 
 Inserts zero or many rows into a table. In addition to the data of the inserted
 rows, the numbers of rows that are inserted can also be fetched. Note the
@@ -534,7 +537,7 @@ query {
 
 ##### Batch updates across several rows
 
-(§table.mutation.update-batch)
+(§mutation.table.update-batch)
 
 This operation allows batching several update operations into a single
 operation. Note that while 'update-many' operation can be used to update
@@ -576,7 +579,7 @@ query {
 
 ##### Delete a row by its primary key
 
-(§table.mutation.delete-by-pk)
+(§mutation.table.delete-by-pk)
 
 Allows deleting a table's row by using the primary key. The data of the deleted
 row can be fetched as part of the response.
@@ -602,7 +605,7 @@ query {
 
 ##### Delete rows that match a primary key
 
-(§table.mutation.delete-many)
+(§mutation.table.delete-many)
 
 Allows deleting zero or more rows that match a boolean predicate. The number of
 rows that have been deleted alongside the deleted data can be fetched as part
