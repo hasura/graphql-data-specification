@@ -66,10 +66,10 @@ Like a model, a virtual model can also be semantically connected to other models
 ```
 VirtualModel
 	name :: String
-  fields :: [Field]
-  edges :: [Edge]
-  implements :: [VirtualModelName]
-  implemented_by :: [VirtualModelName]
+	fields :: [Field]
+	edges :: [Edge]
+	implements :: [VirtualModelName]
+	implemented_by :: [VirtualModelName]
 ```
 
 ### Fields & edges
@@ -91,8 +91,7 @@ FieldType
 
 FieldTypeName 
 	FieldTypeNameScalar ScalarFieldTypeName | 
-	FieldTypeNameModel ModelName | 
-	FieldTypeNameVirtualModel VirtualModelName | 
+	FieldTypeNameVirtualModel VirtualModel | 
 	FieldTypeNameEnum EnumName
 
 ScalarFieldTypeName 
@@ -139,9 +138,13 @@ Boolean expressions that allow evaluating any part of the data graph against dyn
 ```
 	Field: { arguments: {...}. output: FieldBooleanExpression}
 ```
-4. Boolean expressions for fields that are models or virtual models, follow the following syntax:
+4. Boolean expressions for fields that are virtual models, follow the following syntax:
 ```
 	ModelName: {FieldName: FieldBooleanExpression}
+```
+5. Boolean expressions for edges, follow the following syntax:
+```
+	EdgeName: {FieldName: FieldBooleanExpression}
 ```
 
 Boolean expressions are the core of what allow validation, filtering and fine-grained security when accessing or operating on a data graph.
@@ -154,31 +157,56 @@ Node level security rules can be applied to Models, Virtual Models & Actions.
 
 #### NLS for models
 
-- Read operations:
-	- Role name
-	- Which fields can be selected
-	- A filter: A boolean expression condition of the model that must evaluate to true to allow that "node" of the graph, or that instance of the model to be read
-- Insert operations:
-	- Role name
-	- Which fields can be inserted to
-	- Preset values for fields - from the data graph or the session object
-	- A constraint: A boolean expression condition of the model that must evaluate to true to allow that "node" to be inserted into the data graph
-- Update operations:
-	- Role name
-	- Which fields can be inserted to
-	- Preset values for fields - from the data graph or the session object
-	- A filter: A boolean expression condition of the model that must evaluate to true to allow that "node" to be updateable
-- Delete operations:
-	- Role name
-	- A filter: A boolean expression condition of the model that must evaluate to true to allow that "node" to be deleteable
-	
+**Terminology:**
+- Node: A node is a concrete instance of a model
+- Filter: Filter is a boolean expression that allows a particular role to select specific nodes in the domain graph that can be accesssed or operated on
+- Fields: Fields is a list of fields in the node that can be accessed or operated on
+- Check: Check is a boolean expression that validates whether a particular node meets that constraint, after it is operated on
+
+
+**Grammar:**
+```
+ReadPermission:
+ modelName: String
+ roleName: String
+ fields: [ModelFieldNames]
+ filter: ModelBooleanExpression
+
+InsertPermission:
+ modelName: String
+ roleName: String
+ fields: [ModelFieldNames]
+ presets: [(ModelFieldName, LiteralValue)] // For every scalar & enum field
+ check: ModelBooleanExpression
+ 
+UpdatePermission:
+ modelName: String
+ roleName: String
+ fields: [ModelFieldNames]
+ presets: [(ModelFieldName, LiteralValue)] // For every scalar & enum field
+ filter: ModelBooleanExpression
+ check: ModelBooleanExpression
+
+DeletePermission:
+ modelName: String
+ roleName: String
+ fields: [ModelFieldNames]
+ filter: ModelBooleanExpression
+```
+
 #### NLS for virtual models
 
 A virtual model doesn't support any particular operations but only exists in the context of an operation on the data graph (an entity in the data API request/response).
 
-- Role name
-- Constraint: A boolean expression condition of the model that must evaluate to true to allow that virtual model's existence in the data graph to be allowed
-	
+**Grammar:**
+
+```
+Permission:
+ modelName: String
+ roleName: String
+ fields: [ModelFieldNames]
+ constraint: ModelBooleanExpression
+```	
 
 ## GraphQL schema & API
 
