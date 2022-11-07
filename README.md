@@ -36,7 +36,7 @@ The DGDL has the following concepts:
 - [VirtualModel](#virtual-model)
 - [Fields & Edges](#fields-&-edges)
 - [Actions](#actions)
-- [Boolean expressions)(#boolean-expressions)
+- [Boolean expressions](#boolean-expressions)
 
 ### Model
 A model that is backed by a data source and connected to other models in the same or other data sources. This model indicates whether it can be read from, and written to.
