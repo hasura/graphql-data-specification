@@ -1,3 +1,10 @@
+# TODO
+
+- [ ] Wrap up Readme (Tanmai)
+- [ ] Reference implementation of DDL to GraphQL schema (Vamshi)
+- [ ] GDS website with DDL input, GraphiQL browser and NLS input
+
+
 # GraphQL Data Specification
 
 The GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
