@@ -132,19 +132,19 @@ Boolean expressions that allow evaluating any part of the data graph against dyn
 1. `And` / `Or` / `Not` expressions that allow composition with boolean algebra
 2. Boolean expressions for scalar fields that follow the following syntax:
 ```
-   Field: { FieldTypeOperator: Input }
+	FieldName: { FieldTypeOperator: Input }
 ```
 3. Boolean expressions for fields that take an input, follow the following syntax:
 ```
-	Field: { arguments: {...}. output: FieldBooleanExpression}
+	FieldName: { arguments: {...}. output: FieldBooleanExpression}
 ```
 4. Boolean expressions for fields that are virtual models, follow the following syntax:
 ```
-	ModelName: {FieldName: FieldBooleanExpression}
+	Field: VirtualModelBooleanExpression
 ```
 5. Boolean expressions for edges, follow the following syntax:
 ```
-	EdgeName: {FieldName: FieldBooleanExpression}
+	EdgeName: VirtualModelBooleanExpression | ModelBooleanExpression
 ```
 
 Boolean expressions are the core of what allow validation, filtering and fine-grained security when accessing or operating on a data graph.
