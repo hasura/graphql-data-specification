@@ -124,9 +124,10 @@ library
       DDL.Reference
       DDL
 
-      Schema.Model.Expression.SelectionSetSimple
+      Schema.Model.Expression.SelectionSetFields
       Schema.Model.Expression.SelectionSetAggregate
       Schema.Model.Expression.SelectionSetGroup
       Schema.Model.Expression.Field
       Schema.Model.Expression.FieldType
+      Schema.Model.Operation.SelectList
       Schema
