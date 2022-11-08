@@ -77,7 +77,7 @@ export const NLSExplorer: React.VFC<{ schema: any}> = (props) => {
   ) : null;
 }
 
-const NLSEditor: React.VFC<{variableTypes: any, schema: any, modelName: string, onVariablesChange: (string) => void}> = ({ variableTypes, schema, modelName, onVariablesChange }) => {
+const NLSEditor: React.VFC<{variableTypes: any, schema: any, modelName: string, onVariablesChange: (v: string) => void}> = ({ variableTypes, schema, modelName, onVariablesChange }) => {
   const { variableEditor } = useEditorContext({ nonNull: true, caller: NLSEditor})
 
   React.useEffect(() => {

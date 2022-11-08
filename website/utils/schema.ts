@@ -1,5 +1,5 @@
 import { buildClientSchema } from 'graphql/utilities'
-import { isObjectType, GraphQLList, isScalarType, getNamedType, GraphQLInputObjectType, GraphQLInputType, GraphQLEnumType} from 'graphql/type'
+import { isObjectType, TypeKind, GraphQLScalarType, GraphQLNamedInputType, GraphQLType, GraphQLList, isScalarType, getNamedType, GraphQLInputObjectType, GraphQLInputType, GraphQLEnumType} from 'graphql/type'
 
 export const sampleSchemaJson = {
 	"data": {
@@ -5732,9 +5732,9 @@ export type Model = {
 	name: string,
 	boolExpression: {
 		name: string,
-		type: GraphQLInputObjectType
+		type: GraphQLInputType
 	},
-	fieldsType: GraphQLEnumType
+	fieldsType: GraphQLType
 }
 
 export const getAllModels= (schema: any): Model[] => {
@@ -5757,15 +5757,20 @@ export const getAllModels= (schema: any): Model[] => {
 	  		const typeBoolExp = field.args.find(a => a.name === 'where');
 	  		const selectColumnEnum = field.args.find(a => a.name === 'distinct_on');
 	  		if (typeBoolExp) {
-	  			const scalarFields = Object.values(fieldType.getFields()).filter(t => isScalarType(getNamedType(t.type))).map(t => t.name);
 	  			models.push({
 	  				name: field.name,
 	  				boolExpression: {
 	  					name: getNamedType(typeBoolExp.type).name,
 	  					type: getNamedType(typeBoolExp.type)
 	  				},
-	  				scalarFields,
-	  				fieldsType: getNamedType(selectColumnEnum.type)
+	  				fieldsType: selectColumnEnum?.type ? getNamedType(selectColumnEnum.type) : new GraphQLScalarType({
+						  name: 'Test',
+						  serialize: (value: unknown) => value,
+						  parseValue: (value: unknown) => value,
+						  parseLiteral() {
+						  	return null;
+						  }
+						})
 	  			})
 	  		}
 	  	}
@@ -5779,6 +5784,7 @@ export const getAllModels= (schema: any): Model[] => {
 }
 
 export const generateNlsTypesFromModels = (models: Model[], modelName: string) => {
+	
 	const map = {};
 
 	const model = models.find(m => m.name === modelName);
