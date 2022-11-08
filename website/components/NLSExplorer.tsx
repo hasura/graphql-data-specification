@@ -19,6 +19,8 @@ export const NLSExplorer: React.VFC<{ schema: any}> = (props) => {
   	setVariables(v);
   }
 
+  const [role, setRole] = React.useState('');
+
 	const [model, setModel] = React.useState<Model | null>(null);
 
   const fetcher = () => Promise.resolve(props.schema);
@@ -39,7 +41,7 @@ export const NLSExplorer: React.VFC<{ schema: any}> = (props) => {
 
   return allowRender ? (
     <div className="w-full">
-      <div className="flex justify-between mb-2 w-full">
+      <div className="flex justify-between items-center mb-2 w-full">
         <p>Define NLS rules</p>
         <div>
         	<select
@@ -56,9 +58,18 @@ export const NLSExplorer: React.VFC<{ schema: any}> = (props) => {
         		}
         	</select>	
         </div>
+        <div>
+        	<input
+        		type="text"
+        		className="h-8 border border-gray-200 p-1"
+        		placeholder="Role"
+        		value={role}
+        		onChange={(e) => setRole(e.target.value)}
+        	/>
+        </div>
       </div>
       <GraphiQLProvider fetcher={fetcher} dangerouslyAssumeSchemaIsValid schema={props.schema} variables={variables}>
-        <div className="graphiql-container h-96" style={{maxHeight: '100%', height: '400px'}}>
+        <div className="graphiql-container h-96 border border border-gray-200 rounded" style={{maxHeight: '100%', height: '400px'}}>
         	<NLSEditor variableTypes={variableTypes} schema={props.schema} modelName={model?.name || ''} onVariablesChange={onVariablesChange}/>
         </div>
       </GraphiQLProvider>

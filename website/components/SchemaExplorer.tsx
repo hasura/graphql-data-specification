@@ -29,7 +29,7 @@ export const SchemaExplorer: React.VFC<{ schema: any}> = (props) => {
         <p>Explore the GraphQL schema</p>
       </div>
       <GraphiQLProvider fetcher={fetcher}>
-        <div className="graphiql-container h-96" style={{maxHeight: '100%', height: '400px'}}>
+        <div className="graphiql-container h-96 border border border-gray-200 rounded" style={{maxHeight: '100%', height: '400px'}}>
           <QueryEditor />
         </div>
       </GraphiQLProvider>
