@@ -1,0 +1,26 @@
+models:
+  - name: author
+    fields:
+      - name: id
+        returns: Int
+      - name: name
+        returns: String
+    edges: []
+  - name: article
+    fields:
+      - name: id
+        returns: Int
+      - name: title
+        returns: String
+      - name: content
+        returns: String
+      - name: authorId
+        returns: Int
+    edges: []
+virtualModels: []
+enums: []
+scalars:
+- Int
+- String
+actions: []
+
