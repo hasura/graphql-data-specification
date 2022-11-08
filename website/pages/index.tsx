@@ -1,6 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { sampleSchemaJson } from '../utils/schema'
+import { SchemaExplorer } from '../components/SchemaExplorer'
+import { NLSExplorer } from '../components/NLSExplorer'
 
 const title = 'GDS'
 
@@ -22,7 +25,11 @@ export default function Home() {
           Modern standard for powerful GraphQL APIs{' '}
         </p>
 
-        <div className={styles.grid}>
+        <div className={`${styles.grid} mb-4`}>
+          <SchemaExplorer schema={sampleSchemaJson.data}/>
+        </div>
+        <div className={`${styles.grid} mb-4`}>
+          <NLSExplorer schema={sampleSchemaJson.data}/>
         </div>
       </main>
 
