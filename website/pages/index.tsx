@@ -39,7 +39,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Made by{' '}
           <span className={styles.logo}>
             <Image src="/hasura-icon-primary.svg" alt="Vercel Logo" width={16} height={16} />
           </span>
