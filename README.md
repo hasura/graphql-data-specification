@@ -37,7 +37,8 @@ The DGDL has the following concepts:
 - [VirtualModel](#virtual-model)
 - [Fields & Edges](#fields-&-edges)
 - [Commands](#commands)
-- [Boolean expressions](#boolean-expressions)
+- [Aggregation functions](#aggregation-functions)
+- [Predicate functions](#predicate-functions)
 
 ### Model
 A model that is backed by a data source and connected to other models in the same or other data sources. This model indicates whether it can be read from, and written to.
@@ -123,9 +124,32 @@ Command
   operationType :: Read | Write
 ```
 
-### Boolean Expressions
+### Aggregation functions
 
-Boolean expressions that allow evaluating any part of the data graph against dynamic input. Since they are type-safe, boolean expressions are uniquely generated for every model and virtual model and allow the composition of fields & edges.
+Any list of models or list of virtual models can be aggregated over using aggregation functions. These aggregation functions are composed along with [predicate functions](#predicate-functions) and are also available in the final GraphQL API that is exposed.
+
+**For every model or virtual model, the following aggregation function is generated:**
+```
+// Input
+ModelAggregateExpression: {
+	groupBySet: [ModelScalarField], 
+	aggregatedFields: [
+		{AggregationOperator: {arguments:..., ModelField}}
+	],
+	where: ModelBooleanExpression
+}
+
+// Output
+AggregatedModel:
+	groupBySet: [ModelScalarField]
+	aggregatedFields: [ModelField]
+```
+
+### Predicate functions
+
+Predicate functions operate on input and return a `true` or a `false`. Since they are type-safe, predicate functions rely on boolean expressions that are unique to each model and virtual model and allow the composition of fields, edges & aggregation functions.
+
+Predicate functions are key to implementing filter arguments in the final GraphQL API and are used for [Node Level Security](#node-level-security)
 
 **For every model or virtual model, the following boolean expression is generated:**
 
@@ -147,8 +171,12 @@ Boolean expressions that allow evaluating any part of the data graph against dyn
 ```
 	EdgeName: VirtualModelBooleanExpression | ModelBooleanExpression
 ```
+6. Boolean expressions for fields & edges, that are a list of models or virtual models, follow the following syntax:
+```
+	FieldName: {arguments: ModelAggregateExpression, ModelFieldBooleanExpression}
+```
 
-Boolean expressions are the core of what allow validation, filtering and fine-grained security when accessing or operating on a data graph.
+Predicate functions (represented as boolean expressions) are the core of what allow validation, filtering and fine-grained security when accessing or operating on a data graph.
 
 ### Nodel Level Security
 
