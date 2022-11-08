@@ -1,5 +1,8 @@
 models:
   - name: author
+    uniqueIdentifiers:
+      - name: id
+        fields: [id]
     fields:
       - name: id
         returns: Int
@@ -7,6 +10,9 @@ models:
         returns: String
     edges: []
   - name: article
+    uniqueIdentifiers:
+      - name: id
+        fields: [id]
     fields:
       - name: id
         returns: Int

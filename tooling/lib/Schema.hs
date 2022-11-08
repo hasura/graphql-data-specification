@@ -7,6 +7,7 @@ import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Model.Expression.SelectionSetFields qualified as SelectionSetFields
 import Schema.Model.Operation.SelectList qualified as SelectList
+import Schema.Model.Operation.SelectOne qualified as SelectOne
 
 generate :: DDL.Document -> GraphQL.SchemaDocument
 generate document =
@@ -20,8 +21,16 @@ generate document =
         document.models
 
     listSelectionFields = map SelectList.generate document.models
+    uniqueSelectionFields =
+      concatMap
+        ( \model ->
+            map
+              (SelectOne.generate model.name model.fields)
+              model.uniqueIdentifiers
+        )
+        document.models
 
-    queryFields = listSelectionFields
+    queryFields = listSelectionFields <> uniqueSelectionFields
 
     queryRoot =
       GraphQL.TypeDefinitionObject $

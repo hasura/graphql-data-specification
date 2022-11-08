@@ -6,6 +6,7 @@ where
 
 import DDL.Edge
 import DDL.Field
+import DDL.UniqueIdentifier (UniqueIdentifier)
 import Data.Aeson qualified as Json
 import Data.Text (Text)
 import GHC.Generics (Generic)
@@ -18,6 +19,7 @@ data Model modelReference fieldType = Model
   { name :: ModelName,
     fields :: [Field modelReference fieldType],
     edges :: [Edge modelReference],
+    uniqueIdentifiers :: [UniqueIdentifier],
     supportedOperations :: Maybe SupportedOperations
   }
   deriving (Show, Eq, Generic)

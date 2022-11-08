@@ -122,6 +122,7 @@ library
       DDL.Scalar
       DDL.Action
       DDL.Reference
+      DDL.UniqueIdentifier
       DDL
 
       Schema.Model.Expression.SelectionSetFields
@@ -130,4 +131,5 @@ library
       Schema.Model.Expression.Field
       Schema.Model.Expression.FieldType
       Schema.Model.Operation.SelectList
+      Schema.Model.Operation.SelectOne
       Schema

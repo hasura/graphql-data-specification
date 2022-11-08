@@ -15,6 +15,7 @@ import DDL.FieldType as M
 import DDL.Model as M
 import DDL.Reference as M
 import DDL.Scalar as M
+import DDL.UniqueIdentifier as M
 import DDL.VirtualModel as M
 import Data.Aeson qualified as Json
 import GHC.Generics (Generic)
