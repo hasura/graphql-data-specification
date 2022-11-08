@@ -7,7 +7,8 @@
 
 # GraphQL Data Specification (GDS)
 
-GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
+GDS is a fluent GraphQL API specification for trans
+al, analytical and streaming workloads across multiple data sources that contain semantically related data.
 
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
@@ -26,7 +27,7 @@ There are 3 main components of this specification:
 2. Node Level Security
 3. GraphQL Schema and API specification
 
-## Domain Graph Description Language
+## Domain Graph Description Language (DGDL)
 
 The Domain Graph Description Language is a DSL that describes the business domain of the user and the relationships between nodes of that domain graph. This domain graph can be used by GraphQL engines to generate a GraphQL schema and API that allows clients to access and operate on the domain graph.
 
@@ -35,7 +36,7 @@ The DGDL has the following concepts:
 - [Model](#model)
 - [VirtualModel](#virtual-model)
 - [Fields & Edges](#fields-&-edges)
-- [Actions](#actions)
+- [Commands](#commands)
 - [Boolean expressions](#boolean-expressions)
 
 ### Model
@@ -110,13 +111,13 @@ Enum
 	values: [String]
 ```
 
-### Actions
+### Commands
 
-Actions are methods that operate on the domain graph. They take a node as an input, perform an operation on the underlying data sources and return a node as an output. The logic that executes inside an action is opaque to the DGDL and not its concern.
+Commands are methods that operate on the domain graph. They take a node as an input, perform an operation on the underlying data sources and return a node as an output. The logic that executes inside a command is opaque to the DGDL and not its concern.
 
 ```
-Action
-	name :: ActionName
+Command
+	name :: String
   input :: VirtualModel
   output :: VirtualModel
   operationType :: Read | Write
@@ -153,7 +154,7 @@ Boolean expressions are the core of what allow validation, filtering and fine-gr
 
 Node level security is a authorization policy engine that allows creating fine-grained policies and privileges to scope access and operations on a data graph for end users.
 
-Node level security rules can be applied to Models, Virtual Models & Actions.
+Node level security rules can be applied to Models, Virtual Models & Commands.
 
 #### NLS for models
 
@@ -217,8 +218,8 @@ The GraphQL schema which defines the permitted list of operations on the data gr
 The Query field of the GraphQL API contains:
 - For each model:
 	- A GraphQL field to select one model, a list of models or an aggregate property of the model
-- For each action:
-	- A GraphQL field to invoke the action
+- For each command:
+	- A GraphQL root field to invoke the command
 	
 #### GraphQL field to select one model or a list of models
 
@@ -234,7 +235,7 @@ Follows the following convention:
 		- A field that represents select one instance or a list of instances from the edge
 		- A field that allows selecting an aggregate property from the edge
 		
-#### GraphQL field for actions of operationType read
+#### GraphQL field for commands of operationType read
 
 *TODO*
 
@@ -252,7 +253,7 @@ Follows the following convention:
 
 *TODO*
 
-#### GraphQL field for actions of operationType write
+#### GraphQL field for commands of operationType write
 
 *TODO*
 
