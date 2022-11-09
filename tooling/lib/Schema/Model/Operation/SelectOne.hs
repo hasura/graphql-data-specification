@@ -6,6 +6,7 @@ where
 import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
+import Schema.NamingConvention
 
 definition ::
   DDL.ModelName ->
@@ -26,5 +27,5 @@ definition modelName fields uniqueIdentifier = do
       }
   where
     fieldName =
-      GraphQL.unsafeMkName $
+      mkFieldName $
         modelName.wrapped <> "_find_one_by_" <> uniqueIdentifier.name.wrapped

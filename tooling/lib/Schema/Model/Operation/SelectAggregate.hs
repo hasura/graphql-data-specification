@@ -7,6 +7,7 @@ import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.ListArguments qualified as ListArguments
+import Schema.NamingConvention
 
 definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
 definition model = do
@@ -23,4 +24,4 @@ definition model = do
         _fldDirectives = []
       }
   where
-    fieldName = GraphQL.unsafeMkName $ model.name.wrapped <> "_aggregate"
+    fieldName = mkFieldName $ model.name.wrapped <> "_aggregate"

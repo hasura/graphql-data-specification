@@ -8,6 +8,7 @@ import Data.Coerce (coerce)
 import Language.GraphQL.Draft.Syntax as GraphQL
 import Schema.Context
 import Schema.Model.Type.ComparisonExpression.Name (name)
+import Schema.NamingConvention
 
 definition ::
   DDL.ScalarName ->
@@ -16,10 +17,10 @@ definition scalarName = do
   let eqField =
         GraphQL.InputValueDefinition
           { _ivdDescription = Nothing,
-            _ivdName = GraphQL.unsafeMkName "_eq",
+            _ivdName = mkFieldName "_eq",
             _ivdType =
               GraphQL.TypeNamed (GraphQL.Nullability True) $
-                GraphQL.unsafeMkName $
+                mkTypeName $
                   coerce scalarName,
             _ivdDefaultValue = Nothing,
             _ivdDirectives = []

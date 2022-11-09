@@ -5,6 +5,7 @@ where
 
 import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
+import Schema.NamingConvention
 
 name :: DDL.ModelName -> GraphQL.Name
-name modelName = GraphQL.unsafeMkName $ modelName.wrapped <> "_fields"
+name modelName = mkTypeName $ modelName.wrapped <> "_fields"

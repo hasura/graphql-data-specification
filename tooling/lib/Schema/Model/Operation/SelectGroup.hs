@@ -7,6 +7,7 @@ import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.ListArguments qualified as ListArguments
+import Schema.NamingConvention
 
 definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
 definition model = do
@@ -17,7 +18,7 @@ definition model = do
   arguments <- ListArguments.arguments model.name
   selectableFieldTypeName <- getTypeName $ TGRSelectableField model.name
   let groupByField =
-        mkInputValueDefinition (GraphQL.unsafeMkName "group_by") $
+        mkInputValueDefinition (mkFieldName "group_by") $
           GraphQL.TypeList (GraphQL.Nullability True) $
             GraphQL.TypeNamed (GraphQL.Nullability False) selectableFieldTypeName
   pure $
@@ -29,4 +30,4 @@ definition model = do
         _fldDirectives = []
       }
   where
-    fieldName = GraphQL.unsafeMkName $ model.name.wrapped <> "_group"
+    fieldName = mkFieldName $ model.name.wrapped <> "_group"

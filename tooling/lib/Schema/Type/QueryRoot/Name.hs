@@ -4,6 +4,7 @@ module Schema.Type.QueryRoot.Name
 where
 
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
+import Schema.NamingConvention
 
 name :: GraphQL.Name
-name = GraphQL.unsafeMkName "query_root"
+name = mkTypeName "query_root"

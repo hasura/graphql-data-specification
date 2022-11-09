@@ -10,6 +10,7 @@ import Data.Maybe (catMaybes)
 import Language.GraphQL.Draft.Syntax as GraphQL
 import Schema.Context
 import Schema.Model.Type.SelectableField.Name (name)
+import Schema.NamingConvention
 
 definition ::
   DDL.ModelDTO ->
@@ -25,7 +26,7 @@ definition model = do
               Just $
                 GraphQL.EnumValueDefinition
                   { _evdDescription = Nothing,
-                    _evdName = GraphQL.EnumValue $ GraphQL.unsafeMkName $ coerce field.name,
+                    _evdName = GraphQL.EnumValue $ mkTypeName $ coerce field.name,
                     _evdDirectives = []
                   }
           _ -> pure Nothing

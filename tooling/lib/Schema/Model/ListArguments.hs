@@ -6,19 +6,20 @@ where
 import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
+import Schema.NamingConvention
 
 arguments :: DDL.ModelName -> Generate (GraphQL.ArgumentsDefinition GraphQL.InputValueDefinition)
 arguments modelName = do
   booleanExpressionTypeName <- getTypeName $ TGRBooleanExpression modelName
   let limit =
-        mkInputValueDefinition (GraphQL.unsafeMkName "limit") $
+        mkInputValueDefinition (mkFieldName "limit") $
           GraphQL.TypeNamed (GraphQL.Nullability True) $
-            GraphQL.unsafeMkName "Int"
+            mkTypeName "Int"
       offset =
-        mkInputValueDefinition (GraphQL.unsafeMkName "limit") $
+        mkInputValueDefinition (mkFieldName "limit") $
           GraphQL.TypeNamed (GraphQL.Nullability True) $
-            GraphQL.unsafeMkName "Int"
+            mkTypeName "Int"
       whereField =
-        mkInputValueDefinition (GraphQL.unsafeMkName "where") $
+        mkInputValueDefinition (mkFieldName "where") $
           GraphQL.TypeNamed (GraphQL.Nullability True) booleanExpressionTypeName
   pure [whereField, limit, offset]

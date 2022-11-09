@@ -5,6 +5,7 @@ where
 
 import DDL qualified
 import Language.GraphQL.Draft.Syntax as GraphQL
+import Schema.NamingConvention
 
 name :: DDL.ScalarName -> GraphQL.Name
-name scalarName = GraphQL.unsafeMkName $ scalarName.wrapped <> "_comparison_expression"
+name scalarName = mkTypeName $ scalarName.wrapped <> "_comparison_expression"

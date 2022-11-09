@@ -110,6 +110,7 @@ library
 
                       aeson,
                       text,
+                      text-manipulate,
                       graphql-parser,
                       monad-validate,
 
@@ -155,4 +156,5 @@ library
       Schema.Type.QueryRoot.Name
       Schema.Type.QueryRoot.Definition
       Schema.Context
+      Schema.NamingConvention
       Schema

@@ -7,6 +7,7 @@ import DDL qualified
 import Language.GraphQL.Draft.Syntax as GraphQL
 import Schema.Context
 import Schema.Model.Type.SelectionSetAggregate.Name (name)
+import Schema.NamingConvention
 
 definition ::
   DDL.ModelDTO ->
@@ -41,7 +42,7 @@ nodesField model = do
         _fldDirectives = []
       }
   where
-    fieldName = GraphQL.unsafeMkName "nodes"
+    fieldName = mkFieldName "nodes"
 
 aggregateField ::
   DDL.ModelName ->
@@ -61,4 +62,4 @@ aggregateField modelName functionName = do
       }
   where
     fieldName =
-      GraphQL.unsafeMkName functionName.wrapped
+      mkFieldName functionName.wrapped
