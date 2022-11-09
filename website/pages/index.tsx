@@ -1,10 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import styles from '../styles/Home.module.css'
 import { sampleSchemaJson } from '../utils/schema'
 import { SchemaExplorer } from '../components/SchemaExplorer'
 import { NLSExplorer } from '../components/NLSExplorer'
-import { DGDLEditor, useDGDLEditor } from '../components/DGDLEditor'
+import { useDGDLEditor } from '../hooks/hooks'
+import { ClientSideRender } from '../components/ClientSideRender'
+
+const DGDLEditor = dynamic(() => import('../components/DGDLEditor'), {
+  ssr: false
+})
+
 
 const title = 'GDS'
 
@@ -37,10 +44,12 @@ export default function Home() {
         <div className="flex flex-col mb-4 w-full">
           <p className="w-full mb-2">Enter your DGDL Yaml</p>
           <div className="border border-gray-200 rounded mb-2">
-            <DGDLEditor
-              value={dgdl}
-              onChange={onDgdlChange}
-            />
+            <ClientSideRender>
+              <DGDLEditor
+                value={dgdl}
+                onChange={onDgdlChange}
+              />
+            </ClientSideRender>
           </div>
           <div className="w-full flex justify-center">
           <button
