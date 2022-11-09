@@ -20,6 +20,7 @@ import Schema.Model.Type.SelectionSetAggregate.Definition qualified as Selection
 import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSetFields
 import Schema.Model.Type.SelectionSetGroup.Definition qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Definition qualified as QueryRoot
+import Schema.Type.QueryRoot.Name qualified as QueryRoot
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
@@ -30,7 +31,19 @@ generateSchema document = do
   types <-
     fmap Map.elems $
       generateSchema_ (document, DDL.buildEntities document) mempty (Set.singleton TGRQueryRoot)
-  pure $ GraphQL.SchemaDocument $ map GraphQL.TypeSystemDefinitionType types
+  pure $ GraphQL.SchemaDocument (schemaDefinition : map GraphQL.TypeSystemDefinitionType types)
+  where
+    schemaDefinition =
+      GraphQL.TypeSystemDefinitionSchema $
+        GraphQL.SchemaDefinition
+          { _sdDirectives = Nothing,
+            _sdRootOperationTypeDefinitions =
+              [ GraphQL.RootOperationTypeDefinition
+                  { _rotdOperationType = GraphQL.OperationTypeQuery,
+                    _rotdOperationTypeType = QueryRoot.name
+                  }
+              ]
+          }
 
 generateSchema_ ::
   (DDL.Document, DDL.Entities) ->
