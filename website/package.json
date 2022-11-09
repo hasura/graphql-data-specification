@@ -12,6 +12,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
+    "ace-builds": "^1.12.5",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "graphiql": "^2.0.13",
@@ -20,6 +21,7 @@
     "isomorphic-fetch": "^3.0.0",
     "next": "13.0.2",
     "react": "^18.2.0",
+    "react-ace": "^10.1.0",
     "react-dom": "^18.2.0",
     "typescript": "4.8.4"
   },

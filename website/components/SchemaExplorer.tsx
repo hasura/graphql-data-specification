@@ -24,15 +24,10 @@ export const SchemaExplorer: React.VFC<{ schema: any}> = (props) => {
   }, [process.browser])
 
   return allowRender ? (
-    <div className="w-full">
-      <div className="mb-2">
-        <p>Explore the GraphQL schema</p>
+    <GraphiQLProvider fetcher={fetcher} query="# Try writing a GraphQL query across the generated GraphQL schema">
+      <div className="graphiql-container h-96 border border border-gray-200 rounded" style={{maxHeight: '100%', height: '400px'}}>
+        <QueryEditor/>
       </div>
-      <GraphiQLProvider fetcher={fetcher} query="# Try writing a GraphQL query across the generated GraphQL schema">
-        <div className="graphiql-container h-96 border border border-gray-200 rounded" style={{maxHeight: '100%', height: '400px'}}>
-          <QueryEditor/>
-        </div>
-      </GraphiQLProvider>
-      </div>
+    </GraphiQLProvider>
   ) : null;
 }

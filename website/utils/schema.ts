@@ -5724,8 +5724,12 @@ export const sampleSchemaJson = {
 	}
 }
 
-const getSchema = (ddl='') => {
-	return Promise.resolve(sampleSchemaJson)
+export const getSchemaFromGDGL = (ddl='') => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve(sampleSchemaJson);
+		}, 2000)
+	})
 }
 
 export type Model = {
