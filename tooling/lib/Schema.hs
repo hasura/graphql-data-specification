@@ -15,6 +15,7 @@ import Schema.Context
 import Schema.Model.Type.AggregateFunctionFields.Definition qualified as SelectionSetAggregateFunctionFields
 import Schema.Model.Type.BooleanExpression.Definition qualified as BooleanExpression
 import Schema.Model.Type.ComparisonExpression.Definition qualified as ComparisonExpression
+import Schema.Model.Type.SelectableField.Definition qualified as SelectableField
 import Schema.Model.Type.SelectionSetAggregate.Definition qualified as SelectionSetAggregate
 import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSetFields
 import Schema.Model.Type.SelectionSetGroup.Definition qualified as SelectionSetGroup
@@ -68,4 +69,7 @@ generateTypeDefinition = \case
     GraphQL.TypeDefinitionInputObject <$> ComparisonExpression.definition scalarName
   TGRSelectionSetGroup modelName ->
     GraphQL.TypeDefinitionObject <$> SelectionSetGroup.definition modelName
+  TGRSelectableField modelName -> do
+    model <- getModel modelName
+    GraphQL.TypeDefinitionEnum <$> SelectableField.definition model
   TGRQueryRoot -> GraphQL.TypeDefinitionObject <$> QueryRoot.definition
