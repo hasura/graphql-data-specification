@@ -6,6 +6,7 @@ where
 import Control.Monad (forM)
 import Control.Monad.Reader (ask)
 import DDL qualified
+import Data.Maybe (fromMaybe)
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.Operation.SelectAggregate qualified as SelectAggregate
@@ -19,7 +20,8 @@ definition = do
   (document, _entities) <- ask
   listSelectionFields <- mapM SelectList.definition document.models
   uniqueSelectionFields <- fmap concat $ forM document.models $ \model ->
-    mapM (SelectOne.definition model.name model.fields) model.uniqueIdentifiers
+    mapM (SelectOne.definition model.name model.fields) $
+      fromMaybe [] model.uniqueIdentifiers
   aggregateSelectionFields <- mapM SelectAggregate.definition document.models
   groupSelectionFields <- mapM SelectGroup.definition document.models
   let fields =

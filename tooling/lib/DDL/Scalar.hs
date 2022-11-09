@@ -19,7 +19,7 @@ newtype ScalarName = ScalarName {wrapped :: Text}
 
 data Scalar typeDeclaration = Scalar
   { name :: ScalarName,
-    profiles :: [ScalarProfile typeDeclaration]
+    profiles :: Maybe [ScalarProfile typeDeclaration]
   }
   deriving (Show, Eq, Generic)
 

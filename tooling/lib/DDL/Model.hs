@@ -19,8 +19,8 @@ newtype ModelName = ModelName {wrapped :: Text}
 data Model modelReference fieldType = Model
   { name :: ModelName,
     fields :: [Field modelReference fieldType],
-    edges :: [Edge modelReference],
-    uniqueIdentifiers :: [UniqueIdentifier],
+    edges :: Maybe [Edge modelReference],
+    uniqueIdentifiers :: Maybe [UniqueIdentifier],
     supportedOperations :: Maybe SupportedOperations
   }
   deriving (Show, Eq, Generic)

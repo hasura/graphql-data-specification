@@ -18,7 +18,7 @@ newtype VirtualModelName = VirtualModelName {getVirtualModelName :: Text}
 data VirtualModel modelReference fieldType = VirtualModel
   { name :: VirtualModelName,
     fields :: [Field modelReference fieldType],
-    edges :: [Edge modelReference],
+    edges :: Maybe [Edge modelReference],
     implementedBy :: [modelReference]
   }
   deriving (Show, Eq, Generic)
