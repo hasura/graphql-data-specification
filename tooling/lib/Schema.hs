@@ -3,6 +3,7 @@
 {-# HLINT ignore "Use <$>" #-}
 module Schema
   ( generateSchema,
+    getBooleanExpressionNames,
   )
 where
 
@@ -14,6 +15,7 @@ import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.Type.AggregateFunctionFields.Definition qualified as SelectionSetAggregateFunctionFields
 import Schema.Model.Type.BooleanExpression.Definition qualified as BooleanExpression
+import Schema.Model.Type.BooleanExpression.Name qualified as BooleanExpression
 import Schema.Model.Type.ComparisonExpression.Definition qualified as ComparisonExpression
 import Schema.Model.Type.SelectableField.Definition qualified as SelectableField
 import Schema.Model.Type.SelectionSetAggregate.Definition qualified as SelectionSetAggregate
@@ -24,6 +26,11 @@ import Schema.Type.QueryRoot.Name qualified as QueryRoot
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
+
+getBooleanExpressionNames :: DDL.Document -> Map.HashMap DDL.ModelName GraphQL.Name
+getBooleanExpressionNames document =
+  Map.fromList $ flip map document.models $ \model ->
+    (model.name, BooleanExpression.name model.name)
 
 generateSchema ::
   DDL.Document -> Either [ErrorX] GraphQL.SchemaDocument

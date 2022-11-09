@@ -14,7 +14,7 @@ import Prelude hiding (Enum)
 import Data.Hashable (Hashable)
 
 newtype ModelName = ModelName {wrapped :: Text}
-  deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON, Hashable)
+  deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON, Json.ToJSONKey, Json.FromJSONKey, Hashable)
 
 data Model modelReference fieldType = Model
   { name :: ModelName,

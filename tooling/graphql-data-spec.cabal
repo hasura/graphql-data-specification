@@ -91,7 +91,8 @@ executable schema-generator
 
                       graphql-data-spec,
 
-                      graphql-parser
+                      graphql-parser,
+                      unordered-containers
 
     -- Directories containing source files.
     hs-source-dirs:   app
