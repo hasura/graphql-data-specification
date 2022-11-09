@@ -134,6 +134,8 @@ library
       Schema.Model.Type.SelectionSetFields.Name
       Schema.Model.Type.SelectionSetAggregate.Definition
       Schema.Model.Type.SelectionSetAggregate.Name
+      Schema.Model.Type.AggregateFunctionFields.Name
+      Schema.Model.Type.AggregateFunctionFields.Definition
       Schema.Model.Type.SelectionSetGroup.Definition
       Schema.Model.Type.SelectionSetGroup.Name
       Schema.Model.Expression.Field

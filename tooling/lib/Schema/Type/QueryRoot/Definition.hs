@@ -19,8 +19,8 @@ definition = do
   listSelectionFields <- mapM SelectList.definition document.models
   uniqueSelectionFields <- fmap concat $ forM document.models $ \model ->
     mapM (SelectOne.definition model.name model.fields) model.uniqueIdentifiers
-  -- aggregateSelectionFields <- mapM SelectAggregate.definition document.models
-  let fields = listSelectionFields <> uniqueSelectionFields -- <> aggregateSelectionFields
+  aggregateSelectionFields <- mapM SelectAggregate.definition document.models
+  let fields = listSelectionFields <> uniqueSelectionFields <> aggregateSelectionFields
   pure $
     GraphQL.ObjectTypeDefinition
       { _otdDescription = Nothing,

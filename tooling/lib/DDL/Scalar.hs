@@ -4,6 +4,7 @@ module DDL.Scalar
     ScalarProfile (..),
     Operator (..),
     AggregationFunction (..),
+    AggregationFunctionName (..),
   )
 where
 

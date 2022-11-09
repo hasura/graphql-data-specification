@@ -23,12 +23,14 @@ import Schema.Model.Type.SelectionSetAggregate.Name qualified as SelectionSetAgg
 import Schema.Model.Type.SelectionSetFields.Name qualified as SelectionSetFields
 import Schema.Model.Type.SelectionSetGroup.Name qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Name qualified as QueryRoot
+import qualified Schema.Model.Type.AggregateFunctionFields.Name as SelectionSetAggregateFunctionFields
 
 type ErrorX = Text
 
 data TypeGenerationRequest
   = TGRSelectionSetFields DDL.ModelName
   | TGRSelectionSetAggregate DDL.ModelName
+  | TGRSelectionSetAggregateFunctionFields DDL.ModelName DDL.AggregationFunctionName
   | TGRSelectionSetGroup DDL.ModelName
   | TGRQueryRoot
   deriving (Show, Eq, Generic)
@@ -52,6 +54,8 @@ getTypeName request = do
   pure $ case request of
     TGRSelectionSetFields modelName -> SelectionSetFields.name modelName
     TGRSelectionSetAggregate modelName -> SelectionSetAggregate.name modelName
+    TGRSelectionSetAggregateFunctionFields modelName functionName ->
+      SelectionSetAggregateFunctionFields.name modelName functionName
     TGRSelectionSetGroup modelName -> SelectionSetGroup.name modelName
     TGRQueryRoot -> QueryRoot.name
 
