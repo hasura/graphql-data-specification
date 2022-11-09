@@ -4,7 +4,10 @@ module Schema.Context
     Generate,
     runGenerate,
     getTypeName,
+    getEntity,
     getModel,
+    mkInputValueDefinition,
+    mkInputObjectTypeDefinition,
   )
 where
 
@@ -19,11 +22,13 @@ import Data.Hashable (Hashable)
 import Data.Text (Text)
 import GHC.Generics (Generic)
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
+import Schema.Model.Type.AggregateFunctionFields.Name qualified as SelectionSetAggregateFunctionFields
+import Schema.Model.Type.BooleanExpression.Name qualified as BooleanExpression
+import Schema.Model.Type.ComparisonExpression.Name qualified as ComparisonExpression
 import Schema.Model.Type.SelectionSetAggregate.Name qualified as SelectionSetAggregate
 import Schema.Model.Type.SelectionSetFields.Name qualified as SelectionSetFields
 import Schema.Model.Type.SelectionSetGroup.Name qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Name qualified as QueryRoot
-import qualified Schema.Model.Type.AggregateFunctionFields.Name as SelectionSetAggregateFunctionFields
 
 type ErrorX = Text
 
@@ -32,6 +37,8 @@ data TypeGenerationRequest
   | TGRSelectionSetAggregate DDL.ModelName
   | TGRSelectionSetAggregateFunctionFields DDL.ModelName DDL.AggregationFunctionName
   | TGRSelectionSetGroup DDL.ModelName
+  | TGRBooleanExpression DDL.ModelName
+  | TGRComparisonExpression DDL.ScalarName
   | TGRQueryRoot
   deriving (Show, Eq, Generic)
 
@@ -57,6 +64,8 @@ getTypeName request = do
     TGRSelectionSetAggregateFunctionFields modelName functionName ->
       SelectionSetAggregateFunctionFields.name modelName functionName
     TGRSelectionSetGroup modelName -> SelectionSetGroup.name modelName
+    TGRComparisonExpression scalarName -> ComparisonExpression.name scalarName
+    TGRBooleanExpression modelName -> BooleanExpression.name modelName
     TGRQueryRoot -> QueryRoot.name
 
 getModel :: DDL.ModelName -> Generate DDL.ModelDTO
@@ -65,3 +74,33 @@ getModel modelName = do
   case Map.lookup (coerce modelName) entities of
     Just (DDL.EntityModel model) -> pure model
     _ -> refute ["failed to lookup model: " <> modelName.wrapped]
+
+getEntity :: DDL.Reference -> Generate (Maybe DDL.Entity)
+getEntity modelName = do
+  (_document, entities) <- ask
+  pure $ Map.lookup (coerce modelName) entities
+
+mkInputObjectTypeDefinition ::
+  GraphQL.Name ->
+  [GraphQL.InputValueDefinition] ->
+  GraphQL.InputObjectTypeDefinition GraphQL.InputValueDefinition
+mkInputObjectTypeDefinition name fields =
+  GraphQL.InputObjectTypeDefinition
+    { _iotdDescription = Nothing,
+      _iotdName = name,
+      _iotdDirectives = [],
+      _iotdValueDefinitions = fields
+    }
+
+mkInputValueDefinition ::
+  GraphQL.Name ->
+  GraphQL.GType ->
+  GraphQL.InputValueDefinition
+mkInputValueDefinition name fieldType =
+  GraphQL.InputValueDefinition
+    { _ivdDescription = Nothing,
+      _ivdName = name,
+      _ivdType = fieldType,
+      _ivdDefaultValue = Nothing,
+      _ivdDirectives = []
+    }

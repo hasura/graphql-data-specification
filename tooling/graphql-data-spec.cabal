@@ -130,6 +130,11 @@ library
       DDL.UniqueIdentifier
       DDL
 
+      Schema.Model.ListArguments
+      Schema.Model.Type.BooleanExpression.Definition
+      Schema.Model.Type.BooleanExpression.Name
+      Schema.Model.Type.ComparisonExpression.Definition
+      Schema.Model.Type.ComparisonExpression.Name
       Schema.Model.Type.SelectionSetFields.Definition
       Schema.Model.Type.SelectionSetFields.Name
       Schema.Model.Type.SelectionSetAggregate.Definition

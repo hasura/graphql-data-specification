@@ -6,6 +6,7 @@ where
 import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
+import Schema.Model.ListArguments qualified as ListArguments
 
 definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
 definition model = do
@@ -13,11 +14,12 @@ definition model = do
   let fieldType =
         GraphQL.TypeList (GraphQL.Nullability False) $
           GraphQL.TypeNamed (GraphQL.Nullability False) selectionSetTypeName
+  arguments <- ListArguments.arguments model.name
   pure $
     GraphQL.FieldDefinition
       { _fldDescription = Nothing,
         _fldName = fieldName,
-        _fldArgumentsDefinition = [],
+        _fldArgumentsDefinition = arguments,
         _fldType = fieldType,
         _fldDirectives = []
       }

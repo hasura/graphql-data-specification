@@ -12,8 +12,6 @@ definition ::
   DDL.ModelDTO ->
   Generate (GraphQL.ObjectTypeDefinition GraphQL.InputValueDefinition)
 definition model = do
-  -- let intFields = flip filter model.fields $
-  --       \field -> (DDL.convertFieldType field.returns) `elem` ["Int", "Int!"]
   aggregateFields <-
     mapM
       (aggregateField model.name . DDL.AggregationFunctionName)

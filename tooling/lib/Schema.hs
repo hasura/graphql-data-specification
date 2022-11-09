@@ -13,10 +13,12 @@ import Data.HashSet qualified as Set
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.Type.AggregateFunctionFields.Definition qualified as SelectionSetAggregateFunctionFields
+import Schema.Model.Type.BooleanExpression.Definition qualified as BooleanExpression
+import Schema.Model.Type.ComparisonExpression.Definition qualified as ComparisonExpression
 import Schema.Model.Type.SelectionSetAggregate.Definition qualified as SelectionSetAggregate
 import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSetFields
+import Schema.Model.Type.SelectionSetGroup.Definition qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Definition qualified as QueryRoot
-import qualified Schema.Model.Type.SelectionSetGroup.Definition as SelectionSetGroup
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
@@ -59,6 +61,11 @@ generateTypeDefinition = \case
   TGRSelectionSetAggregateFunctionFields modelName functionName -> do
     model <- getModel modelName
     GraphQL.TypeDefinitionObject <$> SelectionSetAggregateFunctionFields.definition model functionName
+  TGRBooleanExpression modelName -> do
+    model <- getModel modelName
+    GraphQL.TypeDefinitionInputObject <$> BooleanExpression.definition model
+  TGRComparisonExpression scalarName -> do
+    GraphQL.TypeDefinitionInputObject <$> ComparisonExpression.definition scalarName
   TGRSelectionSetGroup modelName ->
     GraphQL.TypeDefinitionObject <$> SelectionSetGroup.definition modelName
   TGRQueryRoot -> GraphQL.TypeDefinitionObject <$> QueryRoot.definition
