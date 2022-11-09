@@ -3,6 +3,7 @@ module DDL
     Document (..),
     ModelDTO,
     FieldDTO,
+    ScalarDTO,
     VirtualModelDTO,
   )
 where
@@ -28,11 +29,13 @@ type VirtualModelDTO = M.VirtualModel M.Reference M.FieldType
 
 type ActionDTO = M.Action M.Reference M.FieldType
 
+type ScalarDTO = M.Scalar M.FieldType
+
 data Document = Document
   { models :: [ModelDTO],
     virtualModels :: [VirtualModelDTO],
     enums :: [M.Enum],
-    scalars :: [M.Scalar],
+    scalars :: [ScalarDTO],
     actions :: [ActionDTO]
   }
   deriving (Show, Eq, Generic)

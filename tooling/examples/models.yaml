@@ -26,7 +26,21 @@ models:
 virtualModels: []
 enums: []
 scalars:
-- Int
-- String
+  - name: Int
+    profiles:
+      - name: Postgres
+        operators:
+          - name: _eq
+            rhs: Int
+        aggregationFunctions:
+          - name: sum
+            output: Int
+  - name: String
+    profiles:
+      - name: Postgres
+        operators:
+          - name: _eq
+            rhs: String
+        aggregationFunctions: []
 actions: []
 
