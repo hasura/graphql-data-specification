@@ -85,6 +85,7 @@ executable schema-generator
                       text,
 
                       wai,
+                      wai-extra,
                       warp,
                       twain,
 

@@ -7,10 +7,11 @@ import Language.GraphQL.Draft.Printer qualified as GraphQL.Printer
 import Network.Wai.Handler.Warp (run)
 import Schema
 import Web.Twain qualified as Twain
+import Network.Wai.Middleware.RequestLogger (logStdout)
 
 main :: IO ()
 main = do
-  run 8080 $
+  run 8080 $ logStdout $
     foldr
       ($)
       (Twain.notFound missing)
