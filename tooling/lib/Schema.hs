@@ -16,6 +16,7 @@ import Schema.Model.Type.AggregateFunctionFields.Definition qualified as Selecti
 import Schema.Model.Type.SelectionSetAggregate.Definition qualified as SelectionSetAggregate
 import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSetFields
 import Schema.Type.QueryRoot.Definition qualified as QueryRoot
+import qualified Schema.Model.Type.SelectionSetGroup.Definition as SelectionSetGroup
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
@@ -58,5 +59,6 @@ generateTypeDefinition = \case
   TGRSelectionSetAggregateFunctionFields modelName functionName -> do
     model <- getModel modelName
     GraphQL.TypeDefinitionObject <$> SelectionSetAggregateFunctionFields.definition model functionName
-  TGRSelectionSetGroup modelName -> undefined
+  TGRSelectionSetGroup modelName ->
+    GraphQL.TypeDefinitionObject <$> SelectionSetGroup.definition modelName
   TGRQueryRoot -> GraphQL.TypeDefinitionObject <$> QueryRoot.definition

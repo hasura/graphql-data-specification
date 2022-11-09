@@ -9,6 +9,7 @@ import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Context
 import Schema.Model.Operation.SelectAggregate qualified as SelectAggregate
+import Schema.Model.Operation.SelectGroup qualified as SelectGroup
 import Schema.Model.Operation.SelectList qualified as SelectList
 import Schema.Model.Operation.SelectOne qualified as SelectOne
 import Schema.Type.QueryRoot.Name (name)
@@ -20,7 +21,12 @@ definition = do
   uniqueSelectionFields <- fmap concat $ forM document.models $ \model ->
     mapM (SelectOne.definition model.name model.fields) model.uniqueIdentifiers
   aggregateSelectionFields <- mapM SelectAggregate.definition document.models
-  let fields = listSelectionFields <> uniqueSelectionFields <> aggregateSelectionFields
+  groupSelectionFields <- mapM SelectGroup.definition document.models
+  let fields =
+        listSelectionFields
+          <> uniqueSelectionFields
+          <> aggregateSelectionFields
+          <> groupSelectionFields
   pure $
     GraphQL.ObjectTypeDefinition
       { _otdDescription = Nothing,

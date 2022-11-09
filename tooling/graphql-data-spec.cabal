@@ -142,6 +142,7 @@ library
       Schema.Model.Expression.FieldType
       Schema.Model.Operation.SelectList
       Schema.Model.Operation.SelectAggregate
+      Schema.Model.Operation.SelectGroup
       Schema.Model.Operation.SelectOne
       Schema.Type.QueryRoot.Name
       Schema.Type.QueryRoot.Definition
