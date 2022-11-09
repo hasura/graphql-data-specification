@@ -11,14 +11,17 @@ import Data.Text qualified as Text
 import GHC.Generics (Generic)
 import Language.GraphQL.Draft.Parser qualified as GraphQL
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
+import Data.Hashable (Hashable)
 
 data Nullability = Null | NonNull
   deriving (Show, Eq, Generic)
+instance Hashable Nullability
 
 data FieldType
   = FieldTypeBase Nullability Reference
   | FieldTypeList Nullability FieldType
   deriving (Show, Eq, Generic)
+instance Hashable FieldType
 
 instance Json.ToJSON FieldType where
   toJSON = Json.toJSON . convertFieldType

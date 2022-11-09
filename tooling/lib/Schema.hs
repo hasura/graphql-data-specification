@@ -1,43 +1,55 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use <$>" #-}
 module Schema
-  ( generate,
+  ( generateSchema,
   )
 where
 
+import Control.Monad (forM)
 import DDL qualified
+import Data.HashMap.Strict qualified as Map
+import Data.HashSet qualified as Set
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
-import Schema.Model.Expression.SelectionSetFields qualified as SelectionSetFields
-import Schema.Model.Operation.SelectList qualified as SelectList
-import Schema.Model.Operation.SelectOne qualified as SelectOne
+import Schema.Context
+import qualified Schema.Type.QueryRoot.Definition as QueryRoot
+import qualified Schema.Model.Type.SelectionSetFields.Definition as SelectionSetFields
 
-generate :: DDL.Document -> GraphQL.SchemaDocument
-generate document =
-  let allTypes =
-        map GraphQL.TypeSystemDefinitionType (queryRoot : simpleSelectionSets)
-   in GraphQL.SchemaDocument allTypes
-  where
-    simpleSelectionSets =
-      map
-        (GraphQL.TypeDefinitionObject . SelectionSetFields.generate)
-        document.models
+type GraphQLTypeMap =
+  Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
 
-    listSelectionFields = map SelectList.generate document.models
-    uniqueSelectionFields =
-      concatMap
-        ( \model ->
-            map
-              (SelectOne.generate model.name model.fields)
-              model.uniqueIdentifiers
-        )
-        document.models
+generateSchema ::
+  DDL.Document -> Either [ErrorX] GraphQL.SchemaDocument
+generateSchema document = do
+  types <-
+    fmap Map.elems $
+      generateSchema_ (document, DDL.buildEntities document) mempty (Set.singleton TGRQueryRoot)
+  pure $ GraphQL.SchemaDocument $ map GraphQL.TypeSystemDefinitionType types
 
-    queryFields = listSelectionFields <> uniqueSelectionFields
+generateSchema_ ::
+  (DDL.Document, DDL.Entities) ->
+  GraphQLTypeMap ->
+  Set.HashSet TypeGenerationRequest ->
+  Either [ErrorX] GraphQLTypeMap
+generateSchema_ context generatedTypes requestedTypes = do
+  let pendingTypes = requestedTypes `Set.difference` Map.keysSet generatedTypes
+  if null pendingTypes
+    then pure generatedTypes
+    else do
+      (newlyGeneratedTypes, newlyRequestedTypes) <-
+        runGenerate context $
+          fmap Map.fromList $
+            forM (Set.toList pendingTypes) $ \pendingType ->
+              (pendingType,) <$> generateTypeDefinition pendingType
+      generateSchema_ context (generatedTypes <> newlyGeneratedTypes) newlyRequestedTypes
 
-    queryRoot =
-      GraphQL.TypeDefinitionObject $
-        GraphQL.ObjectTypeDefinition
-          { _otdDescription = Nothing,
-            _otdName = GraphQL.unsafeMkName "query_root",
-            _otdImplementsInterfaces = [],
-            _otdDirectives = [],
-            _otdFieldsDefinition = queryFields
-          }
+generateTypeDefinition ::
+  TypeGenerationRequest ->
+  Generate (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
+generateTypeDefinition = \case
+  TGRSelectionSetFields modelName -> do
+    model <- getModel modelName
+    pure $ GraphQL.TypeDefinitionObject $ SelectionSetFields.definition model
+  TGRSelectionSetAggregate modelName -> undefined
+  TGRSelectionSetGroup modelName -> undefined
+  TGRQueryRoot -> GraphQL.TypeDefinitionObject <$> QueryRoot.definition

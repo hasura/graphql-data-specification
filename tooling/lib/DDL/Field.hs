@@ -8,9 +8,10 @@ import Data.Aeson qualified as Json
 import Data.Text (Text)
 import GHC.Generics (Generic)
 import Prelude hiding (Enum)
+import Data.Hashable (Hashable)
 
 newtype FieldName = FieldName {wrapped :: Text}
-  deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON)
+  deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON, Hashable)
 
 data Field modelReference fieldType = Field
   { name :: FieldName,
@@ -28,3 +29,7 @@ instance
 instance
   (Json.FromJSON modelReference, Json.FromJSON fieldType) =>
   Json.FromJSON (Field modelReference fieldType)
+
+instance
+  (Hashable modelReference, Hashable fieldType) =>
+  Hashable (Field modelReference fieldType)

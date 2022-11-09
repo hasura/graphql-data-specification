@@ -109,7 +109,11 @@ library
 
                       aeson,
                       text,
-                      graphql-parser
+                      graphql-parser,
+                      monad-validate,
+
+                      hashable,
+                      unordered-containers
 
     -- Directories containing source files.
     hs-source-dirs:   lib
@@ -126,11 +130,18 @@ library
       DDL.UniqueIdentifier
       DDL
 
-      Schema.Model.Expression.SelectionSetFields
-      Schema.Model.Expression.SelectionSetAggregate
-      Schema.Model.Expression.SelectionSetGroup
+      Schema.Model.Type.SelectionSetFields.Definition
+      Schema.Model.Type.SelectionSetFields.Name
+      Schema.Model.Type.SelectionSetAggregate.Definition
+      Schema.Model.Type.SelectionSetAggregate.Name
+      Schema.Model.Type.SelectionSetGroup.Definition
+      Schema.Model.Type.SelectionSetGroup.Name
       Schema.Model.Expression.Field
       Schema.Model.Expression.FieldType
       Schema.Model.Operation.SelectList
+      Schema.Model.Operation.SelectAggregate
       Schema.Model.Operation.SelectOne
+      Schema.Type.QueryRoot.Name
+      Schema.Type.QueryRoot.Definition
+      Schema.Context
       Schema

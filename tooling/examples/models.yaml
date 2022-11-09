@@ -43,4 +43,3 @@ scalars:
             rhs: String
         aggregationFunctions: []
 actions: []
-
