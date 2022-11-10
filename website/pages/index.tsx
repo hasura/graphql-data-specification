@@ -28,28 +28,28 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>{`${title} - Playground`} </title>
-        <meta name="description" content="Modern Standard for GraphQL APIs" />
+        <meta name="description" content="A playground for the emerging GraphQL Data Specification" />
         <link rel="icon" href="/hasura-icon-mono-dark.svg" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          {title}&nbsp;Playground
+          {title}
         </h1>
 
         <div className={styles.description}>
           <p>
-          Modern standard for powerful GraphQL APIs{' '}
+          A playground for the emerging GraphQL Data Specification
           </p>
           <p className="text-sm">
             Specification:&nbsp;
             <a
-              href="https://github.com/hasura/gds"
+              href="https://github.com/hasura/graphql-data-specification"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-500"
             >
-              https://github.com/hasura/gds
+              github.com/hasura/graphql-data-specification
             </a>
           </p>
         </div>
