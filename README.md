@@ -1,13 +1,16 @@
 # GraphQL Data Specification (GDS)
 
-GDS is a fluent GraphQL API specification for trans
-al, analytical and streaming workloads across multiple data sources that contain semantically related data.
+**Status**: DRAFT. This specification is still heavily a WIP and currently an early draft. We are currently eager and ready to invite collaboration. We will achieve completion once this specifcation is entirely formalized and also has a reference implemention (currently in `/tooling`).
+
+**Contact**: If you or your organization is interested in collaborating on the specification and/or working on a GraphQL Data API platform, reach out to us at: graphql.data@hasura.io and we'd love to exchange notes.
+
+GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
 
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
 	- Automated query planning (compilation with JSON aggregation > data-loader > n+1)
+	- Authorization rules integrated into data fetching automatically (predicate push-down)
 	- Automated caching (cache-key discovery)
-	- Authorization rules integrated into data fetching automatically
 - Security
 	- Intuitive fine-grained authorization
 	- Declarative
@@ -19,6 +22,8 @@ There are 3 main components of this specification:
 1. Domain Graph Description Language
 2. Node Level Security
 3. GraphQL Schema and API specification
+
+[Check out the playground](https://playground.graphql-data.com) to get a feel for the DGDL, NLS and the resulting GraphQL schema.
 
 ## Domain Graph Description Language (DGDL)
 
@@ -234,6 +239,8 @@ Permission:
 
 The GraphQL schema which defines the permitted list of operations on the data graph is created automatically from the Domain Graph Description Language with the following specification.
 
+We're making it easy to browse the GraphQL schema & API convention via the [GDS playground](http://playground.graphql-data.com).
+
 ### Query
 
 The Query field of the GraphQL API contains:
@@ -245,12 +252,12 @@ The Query field of the GraphQL API contains:
 #### GraphQL field to select one model or a list of models
 
 Follows the following convention:
-- GraphQL field name: ModelName or ModelName_One
+- GraphQL field name: ModelName or ModelNameList
 - GraphQL field arguments:
 	- where: ModelBooleanExpression
 	- limit, offset
 	- order_by: ModelSortExpression
-- GraphQL field selection set:
+- GraphQL field type (selection set):
 	- The fields of the model
 	- For each edge:
 		- A field that represents select one instance or a list of instances from the edge
@@ -258,36 +265,85 @@ Follows the following convention:
 		
 #### GraphQL field for commands of operationType read
 
-*TODO*
+Follows the following convention:
+- GraphQL field name: CommandName
+- GraphQL field arguments:
+	- input: VirtualModel | [VirtualModel]
+- GraphQL field type (selection set):
+	- OutputModel | [OutputModel]
 
 ### Mutation
 
-#### GraphQL field to insert models
+#### GraphQL field for commands of operationType write
 
-*TODO*
+Follows the following convention:
+- GraphQL field name: CommandName
+- GraphQL field arguments:
+	- input: InputModel | [InputModel]
+- GraphQL field type (selection set):
+	- OutputModel | [OutputModel]
+
+#### GraphQL field to insert models (writeable models only)
+
+Follows the following convention:
+- GraphQL field name: insert[ModelName]
+- GraphQL field arguments: `Model`
+	- The fields available in the `Model` are the writeable fields
+	- Edges that are writeable can also be inserted
+- GraphQL field type (selection set):
+	- affectedNodes: Int
+	- returning: [Model]
 
 #### GraphQL field to update models
 
-*TODO*
+Follows the following convention:
+- GraphQL field name: update[ModelName]
+- GraphQL field arguments: 
+	- where: `ModelBooleanExpression`
+	- _set: `Model`
+		- The fields available in the `Model` are the writeable fields
+		- Edges that are updateable can also be traversed and updated
+- GraphQL field type (selection set):
+	- affectedNodes: Int
+	- returning: [Model]
 	
 #### GraphQL field to delete models
 
-*TODO*
-
-#### GraphQL field for commands of operationType write
-
-*TODO*
+Follows the following convention:
+- GraphQL field name: delete[ModelName]
+- GraphQL field arguments: 
+	- where: `ModelBooleanExpression`
+- GraphQL field type (selection set):
+	- affectedNodes: Int
+	- returning: [Model]
 
 ### Subscription
 
 #### GraphQL field for live queries
 
-*TODO*
+Follows the following convention:
+- GraphQL field name: ModelName
+- GraphQL field arguments:
+	- where: ModelBooleanExpression
+- GraphQL field type (selection set):
+	- The fields of the model
+	- For each edge:
+		- A field that represents select one instance or a list of instances from the edge
+		- A field that allows selecting an aggregate property from the edge
 
-#### GraphQL field for streaming models
+#### GraphQL field for subscribing to a stream of models
 
-*TODO*
-
+Follows the following convention:
+- GraphQL field name: stream[ModelName]
+- GraphQL field arguments:
+	- where: ModelBooleanExpression
+	- cursor: [ModelFields]
+	- order_by: ModelSortExpression
+- GraphQL field type (selection set):
+	- The fields of the model
+	- For each edge:
+		- A field that represents select one instance or a list of instances from the edge
+		- A field that allows selecting an aggregate property from the edge
 
 ------------------
 
