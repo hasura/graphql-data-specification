@@ -37,4 +37,4 @@ definition fieldNamePrefix model = do
         _fldDirectives = []
       }
   where
-    fieldName = mkFieldName $ GraphQL.unName fieldNamePrefix <> "_group"
+    fieldName = mkFieldName $ GraphQL.unName fieldNamePrefix <> "_group_by"
