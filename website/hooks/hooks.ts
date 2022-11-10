@@ -1,20 +1,27 @@
 import * as React from 'react';
-import { getSchemaFromGDGL } from '../utils/schema'
+import { generateGraphQLSchemaFromModels, Model, getModels, getGraphQLSchema, sampleDGDL } from '../utils/schema'
 
-export const useDGDLEditor = () => {
+export const useDGDLEditor = (initDgDl=sampleDGDL) => {
 
-	const [value, setValue] = React.useState('');
+	const [value, setValue] = React.useState(initDgDl);
 	const [gqlSchema, setGqlSchema] = React.useState<any | null>(null);
+	const [models, setModels] = React.useState<Model[]>([])
 	const [generatingGqlSchema, setGeneratingGqlSchema] = React.useState(false);
 	const [error, setError] = React.useState('');
 
 	const submitDGDL = async (dgdl: string) => {
 		setGeneratingGqlSchema(true)
 		try {
-			const schema = await getSchemaFromGDGL(dgdl);
+			const schemaResponse = await generateGraphQLSchemaFromModels(dgdl);
+			const schema = await getGraphQLSchema(schemaResponse);
+			const models = await getModels(schemaResponse.booleanExpressionNames, schema);
+			console.log(models);
+			console.log(schema)
 			setGqlSchema(schema);
+			setModels(models)
 			setGeneratingGqlSchema(false);
 		} catch (e: any) {
+			console.log(e)
 			setError(e.message);
 			setGeneratingGqlSchema(false)
 		}
@@ -28,6 +35,7 @@ export const useDGDLEditor = () => {
 		onDgdlChange: (v: string) => {
 			setGqlSchema(null)
 			setValue(v)
-		}
+		},
+		models
 	}
 }

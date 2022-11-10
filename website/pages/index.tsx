@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import styles from '../styles/Home.module.css'
-import { sampleSchemaJson } from '../utils/schema'
 import { SchemaExplorer } from '../components/SchemaExplorer'
 import { NLSExplorer } from '../components/NLSExplorer'
 import { useDGDLEditor } from '../hooks/hooks'
@@ -12,7 +11,6 @@ const DGDLEditor = dynamic(() => import('../components/DGDLEditor'), {
   ssr: false
 })
 
-
 const title = 'GDS'
 
 export default function Home() {
@@ -21,7 +19,8 @@ export default function Home() {
     onDgdlChange,
     generateGqlSchema,
     generatingGqlSchema,
-    schema
+    schema,
+    models
   } = useDGDLEditor()
 
   return (
@@ -71,10 +70,10 @@ export default function Home() {
                 <div className="mb-2">
                   <p>Explore the GraphQL schema</p>
                 </div>
-                <SchemaExplorer schema={sampleSchemaJson.data}/>
+                <SchemaExplorer schema={schema}/>
               </div>
               <div className={`w-full mb-4`}>
-                <NLSExplorer schema={sampleSchemaJson.data}/>
+                <NLSExplorer schema={schema} models={models}/>
               </div>
             </>
           )
