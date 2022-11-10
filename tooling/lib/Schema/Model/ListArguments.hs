@@ -16,7 +16,7 @@ arguments modelName = do
           GraphQL.TypeNamed (GraphQL.Nullability True) $
             mkTypeName "Int"
       offset =
-        mkInputValueDefinition (mkFieldName "limit") $
+        mkInputValueDefinition (mkFieldName "offset") $
           GraphQL.TypeNamed (GraphQL.Nullability True) $
             mkTypeName "Int"
       whereField =
