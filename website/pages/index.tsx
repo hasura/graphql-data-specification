@@ -89,13 +89,16 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <a
+          className="flex items-center"
           href="https://hasura.io"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Made by{' '}
+          <p>
+            Made by{' '}
+          </p>
           <span className={styles.logo}>
-            <Image src="/hasura-icon-primary.svg" alt="Vercel Logo" width={16} height={16} />
+            <Image src="/hasura-icon-primary.svg" alt="Hasura Logo" width={80} height={20} />
           </span>
         </a>
       </footer>
