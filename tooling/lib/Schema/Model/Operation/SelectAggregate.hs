@@ -1,4 +1,4 @@
-module Schema.Model.Operation.SelectList
+module Schema.Model.Operation.SelectAggregate
   ( definition,
   )
 where
@@ -11,10 +11,9 @@ import Schema.NamingConvention
 
 definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
 definition model = do
-  selectionSetTypeName <- getTypeName $ TGRSelectionSetFields model.name
+  selectionSetTypeName <- getTypeName $ TGRSelectionSetAggregate model.name
   let fieldType =
-        GraphQL.TypeList (GraphQL.Nullability False) $
-          GraphQL.TypeNamed (GraphQL.Nullability False) selectionSetTypeName
+        GraphQL.TypeNamed (GraphQL.Nullability False) selectionSetTypeName
   arguments <- ListArguments.arguments model.name
   pure $
     GraphQL.FieldDefinition
@@ -25,4 +24,4 @@ definition model = do
         _fldDirectives = []
       }
   where
-    fieldName = mkFieldName $ model.name.wrapped <> "_list"
+    fieldName = mkFieldName $ model.name.wrapped <> "_aggregate"

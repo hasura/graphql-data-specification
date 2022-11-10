@@ -85,12 +85,14 @@ executable schema-generator
                       text,
 
                       wai,
+                      wai-extra,
                       warp,
                       twain,
 
                       graphql-data-spec,
 
-                      graphql-parser
+                      graphql-parser,
+                      unordered-containers
 
     -- Directories containing source files.
     hs-source-dirs:   app
@@ -108,7 +110,12 @@ library
 
                       aeson,
                       text,
-                      graphql-parser
+                      text-manipulate,
+                      graphql-parser,
+                      monad-validate,
+
+                      hashable,
+                      unordered-containers
 
     -- Directories containing source files.
     hs-source-dirs:   lib
@@ -125,11 +132,29 @@ library
       DDL.UniqueIdentifier
       DDL
 
-      Schema.Model.Expression.SelectionSetFields
-      Schema.Model.Expression.SelectionSetAggregate
-      Schema.Model.Expression.SelectionSetGroup
+      Schema.Model.ListArguments
+      Schema.Model.Type.BooleanExpression.Definition
+      Schema.Model.Type.BooleanExpression.Name
+      Schema.Model.Type.ComparisonExpression.Definition
+      Schema.Model.Type.ComparisonExpression.Name
+      Schema.Model.Type.SelectionSetFields.Definition
+      Schema.Model.Type.SelectionSetFields.Name
+      Schema.Model.Type.SelectionSetAggregate.Definition
+      Schema.Model.Type.SelectionSetAggregate.Name
+      Schema.Model.Type.AggregateFunctionFields.Name
+      Schema.Model.Type.AggregateFunctionFields.Definition
+      Schema.Model.Type.SelectionSetGroup.Definition
+      Schema.Model.Type.SelectionSetGroup.Name
+      Schema.Model.Type.SelectableField.Definition
+      Schema.Model.Type.SelectableField.Name
       Schema.Model.Expression.Field
       Schema.Model.Expression.FieldType
       Schema.Model.Operation.SelectList
+      Schema.Model.Operation.SelectAggregate
+      Schema.Model.Operation.SelectGroup
       Schema.Model.Operation.SelectOne
+      Schema.Type.QueryRoot.Name
+      Schema.Type.QueryRoot.Definition
+      Schema.Context
+      Schema.NamingConvention
       Schema

@@ -6,6 +6,7 @@ where
 import DDL qualified
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Model.Expression.FieldType qualified as Schema.FieldType
+import Schema.NamingConvention
 
 generate :: DDL.FieldDTO -> GraphQL.FieldDefinition GraphQL.InputValueDefinition
 generate field =
@@ -17,4 +18,4 @@ generate field =
       _fldDirectives = []
     }
   where
-    fieldName = GraphQL.unsafeMkName field.name.wrapped
+    fieldName = mkFieldName field.name.wrapped
