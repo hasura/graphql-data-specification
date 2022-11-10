@@ -23,6 +23,7 @@ import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSet
 import Schema.Model.Type.SelectionSetGroup.Definition qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Definition qualified as QueryRoot
 import Schema.Type.QueryRoot.Name qualified as QueryRoot
+import Data.Coerce (coerce)
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
@@ -74,22 +75,22 @@ generateTypeDefinition ::
   Generate (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
 generateTypeDefinition = \case
   TGRSelectionSetFields modelName -> do
-    model <- getModel modelName
-    pure $ GraphQL.TypeDefinitionObject $ SelectionSetFields.definition model
+    model <- getModel $ coerce modelName
+    GraphQL.TypeDefinitionObject <$> SelectionSetFields.definition model
   TGRSelectionSetAggregate modelName -> do
-    model <- getModel modelName
+    model <- getModel $ coerce modelName
     GraphQL.TypeDefinitionObject <$> SelectionSetAggregate.definition model
   TGRSelectionSetAggregateFunctionFields modelName functionName -> do
-    model <- getModel modelName
+    model <- getModel $ coerce modelName
     GraphQL.TypeDefinitionObject <$> SelectionSetAggregateFunctionFields.definition model functionName
   TGRBooleanExpression modelName -> do
-    model <- getModel modelName
+    model <- getModel $ coerce modelName
     GraphQL.TypeDefinitionInputObject <$> BooleanExpression.definition model
   TGRComparisonExpression scalarName -> do
     GraphQL.TypeDefinitionInputObject <$> ComparisonExpression.definition scalarName
   TGRSelectionSetGroup modelName ->
     GraphQL.TypeDefinitionObject <$> SelectionSetGroup.definition modelName
   TGRSelectableField modelName -> do
-    model <- getModel modelName
+    model <- getModel $ coerce modelName
     GraphQL.TypeDefinitionEnum <$> SelectableField.definition model
   TGRQueryRoot -> GraphQL.TypeDefinitionObject <$> QueryRoot.definition

@@ -17,7 +17,7 @@ definition scalarName = do
   let eqField =
         GraphQL.InputValueDefinition
           { _ivdDescription = Nothing,
-            _ivdName = mkFieldName "_eq",
+            _ivdName = GraphQL.unsafeMkName "_eq",
             _ivdType =
               GraphQL.TypeNamed (GraphQL.Nullability True) $
                 mkTypeName $

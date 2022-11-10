@@ -8,6 +8,7 @@ module Schema.Context
     getModel,
     mkInputValueDefinition,
     mkInputObjectTypeDefinition,
+    mkFieldDefinition,
   )
 where
 
@@ -71,7 +72,7 @@ getTypeName request = do
     TGRBooleanExpression modelName -> BooleanExpression.name modelName
     TGRQueryRoot -> QueryRoot.name
 
-getModel :: DDL.ModelName -> Generate DDL.ModelDTO
+getModel :: DDL.EntityName -> Generate DDL.ModelDTO
 getModel modelName = do
   (_document, entities) <- ask
   case Map.lookup (coerce modelName) entities of
@@ -106,4 +107,18 @@ mkInputValueDefinition name fieldType =
       _ivdType = fieldType,
       _ivdDefaultValue = Nothing,
       _ivdDirectives = []
+    }
+
+mkFieldDefinition ::
+  GraphQL.Name ->
+  GraphQL.ArgumentsDefinition inputType ->
+  GraphQL.GType ->
+  GraphQL.FieldDefinition inputType
+mkFieldDefinition fieldName arguments fieldType =
+  GraphQL.FieldDefinition
+    { _fldDescription = Nothing,
+      _fldName = fieldName,
+      _fldArgumentsDefinition = arguments,
+      _fldType = fieldType,
+      _fldDirectives = []
     }

@@ -9,8 +9,11 @@ import Schema.Context
 import Schema.Model.ListArguments qualified as ListArguments
 import Schema.NamingConvention
 
-definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
-definition model = do
+definition ::
+  GraphQL.Name ->
+  DDL.ModelDTO ->
+  Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
+definition fieldNamePrefix model = do
   selectionSetTypeName <- getTypeName $ TGRSelectionSetAggregate model.name
   let fieldType =
         GraphQL.TypeNamed (GraphQL.Nullability False) selectionSetTypeName
@@ -24,4 +27,4 @@ definition model = do
         _fldDirectives = []
       }
   where
-    fieldName = mkFieldName $ model.name.wrapped <> "_aggregate"
+    fieldName = mkFieldName $ GraphQL.unName fieldNamePrefix <> "_aggregate"

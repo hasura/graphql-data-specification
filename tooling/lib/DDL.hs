@@ -53,7 +53,7 @@ instance Json.ToJSON Document where
 
 instance Json.FromJSON Document
 
-newtype EntityName = EntityName {getEntityName :: Text}
+newtype EntityName = EntityName {wrapped :: Text}
   deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON, Hashable)
 
 data Entity

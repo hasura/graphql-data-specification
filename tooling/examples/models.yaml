@@ -8,7 +8,10 @@ models:
         returns: Int
       - name: name
         returns: String
-    edges: []
+    edges:
+      - name: articles
+        kind: Array
+        target: article
   - name: article
     uniqueIdentifiers:
       - name: id
@@ -22,7 +25,10 @@ models:
         returns: String
       - name: authorId
         returns: Int
-    edges: []
+    edges:
+      - name: author
+        kind: Object
+        target: author
 virtualModels: []
 enums: []
 scalars:

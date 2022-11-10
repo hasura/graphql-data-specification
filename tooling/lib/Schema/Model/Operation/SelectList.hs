@@ -9,8 +9,10 @@ import Schema.Context
 import Schema.Model.ListArguments qualified as ListArguments
 import Schema.NamingConvention
 
-definition :: DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
-definition model = do
+definition
+  :: GraphQL.Name
+  -> DDL.ModelDTO -> Generate (GraphQL.FieldDefinition GraphQL.InputValueDefinition)
+definition fieldNamePrefix model = do
   selectionSetTypeName <- getTypeName $ TGRSelectionSetFields model.name
   let fieldType =
         GraphQL.TypeList (GraphQL.Nullability False) $
@@ -25,4 +27,4 @@ definition model = do
         _fldDirectives = []
       }
   where
-    fieldName = mkFieldName $ model.name.wrapped <> "_list"
+    fieldName = mkFieldName $ GraphQL.unName fieldNamePrefix <> "_list"
