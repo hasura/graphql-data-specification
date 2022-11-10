@@ -1,6 +1,7 @@
 # GraphQL Data Specification (GDS)
 
 **Status**: DRAFT. This specification and proposal is still a WIP and currently an early draft.
+
 **Contact**: If you or your organization is interested in collaborating on the specification and/or working on a GraphQL Data API platform, reach out to us at: graphql.data@hasura.io and we'd love to exchange notes.
 
 GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
