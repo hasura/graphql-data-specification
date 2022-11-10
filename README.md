@@ -23,6 +23,8 @@ There are 3 main components of this specification:
 2. Node Level Security
 3. GraphQL Schema and API specification
 
+[Check out the playground](https://playground.graphql-data.com) to get a feel for the DGDL, NLS and the resulting GraphQL schema.
+
 ## Domain Graph Description Language (DGDL)
 
 The Domain Graph Description Language is a DSL that describes the business domain of the user and the relationships between nodes of that domain graph. This domain graph can be used by GraphQL engines to generate a GraphQL schema and API that allows clients to access and operate on the domain graph.
