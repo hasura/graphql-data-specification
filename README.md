@@ -1,10 +1,3 @@
-# TODO
-
-- [ ] Wrap up Readme (Tanmai)
-- [ ] Reference implementation of DGDL to GraphQL schema (Vamshi)
-- [ ] GDS website with DGDL input, GraphiQL browser and NLS input (Rikin, Rishi)
-
-
 # GraphQL Data Specification (GDS)
 
 GDS is a fluent GraphQL API specification for trans
