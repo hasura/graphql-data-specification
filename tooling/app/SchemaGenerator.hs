@@ -13,6 +13,7 @@ import Network.Wai.Handler.Warp (run)
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import Schema qualified
 import Web.Twain qualified as Twain
+import System.IO qualified as IO
 
 data Schema = Schema
   { booleanExpressionNames :: Map.HashMap DDL.ModelName GraphQL.Name,
@@ -41,6 +42,8 @@ getSchema = do
 
 main :: IO ()
 main = do
+  putStrLn "Starting web server at port 8080"
+  IO.hFlush IO.stdout
   run 8080 $
     logStdout $
       foldr
