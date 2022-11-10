@@ -1,13 +1,28 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import styles from '../styles/Home.module.css'
-import { sampleSchemaJson } from '../utils/schema'
 import { SchemaExplorer } from '../components/SchemaExplorer'
 import { NLSExplorer } from '../components/NLSExplorer'
+import { useDGDLEditor } from '../hooks/hooks'
+import { ClientSideRender } from '../components/ClientSideRender'
+
+const DGDLEditor = dynamic(() => import('../components/DGDLEditor'), {
+  ssr: false
+})
 
 const title = 'GDS'
 
 export default function Home() {
+  const {
+    dgdl,
+    onDgdlChange,
+    generateGqlSchema,
+    generatingGqlSchema,
+    schema,
+    models
+  } = useDGDLEditor()
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,12 +39,45 @@ export default function Home() {
         <p className={styles.description}>
           Modern standard for powerful GraphQL APIs{' '}
         </p>
-
-        <div className={`${styles.grid} mb-4`}>
-          <SchemaExplorer schema={sampleSchemaJson.data}/>
+        <div className={`${styles.grid} flex-col`}>
+        <div className="flex flex-col mb-4 w-full">
+          <p className="w-full mb-2">Enter your DGDL Yaml</p>
+          <div className="border border-gray-200 rounded mb-2">
+            <ClientSideRender>
+              <DGDLEditor
+                value={dgdl}
+                onChange={onDgdlChange}
+              />
+            </ClientSideRender>
+          </div>
+          <div className="w-full flex justify-center">
+          <button
+            className={`flex items-center justify-center w-auto bg-zinc-500 ${!generatingGqlSchema ? "hover:shadow hover:bg-zinc-600" : ""} text-white text-sm py-2 px-4 rounded-full`}
+            onClick={() => generateGqlSchema(dgdl)}
+            disabled={generatingGqlSchema}
+          >
+            {generatingGqlSchema && (
+              <div className="w-3 h-3 border-l-2 border-gray-100 rounded-full animate-spin mr-1"></div>
+            )}
+            Generate GraphQL Schema
+          </button> 
+          </div>
         </div>
-        <div className={`${styles.grid} mb-4`}>
-          <NLSExplorer schema={sampleSchemaJson.data}/>
+        {
+          schema && (
+            <>
+              <div className={`w-full mb-4`}>
+                <div className="mb-2">
+                  <p>Explore the GraphQL schema</p>
+                </div>
+                <SchemaExplorer schema={schema}/>
+              </div>
+              <div className={`w-full mb-4`}>
+                <NLSExplorer schema={schema} models={models}/>
+              </div>
+            </>
+          )
+        }
         </div>
       </main>
 
