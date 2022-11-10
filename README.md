@@ -5,7 +5,7 @@ GDS is a fluent GraphQL API specification for transactional, analytical and stre
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
 	- Automated query planning (compilation with JSON aggregation > data-loader > n+1)
-	- Authorization rules integrated into data fetching automatically
+	- Authorization rules integrated into data fetching automatically (predicate push-down)
 	- Automated caching (cache-key discovery)
 - Security
 	- Intuitive fine-grained authorization
