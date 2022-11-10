@@ -1,7 +1,10 @@
 import { buildClientSchema, buildASTSchema, buildSchema } from 'graphql/utilities'
+import fetch from 'isomorphic-fetch'
+import { load as loadYaml  } from 'js-yaml'
 import { camelize } from 'inflection';
 import { parse as parseSdl, Kind } from 'graphql/language'
 import { isObjectType, isEnumType, isInputObjectType, TypeKind, GraphQLSchema, GraphQLScalarType, GraphQLNamedInputType, GraphQLType, GraphQLList, isScalarType, getNamedType, GraphQLInputObjectType, GraphQLInputType, GraphQLEnumType} from 'graphql/type'
+import { DGDL_PROCESSING_SCHEMA_API } from './constants'
 
 export const sampleDGDL = `models:
   - name: author
@@ -49,12 +52,23 @@ type SchemaResponse = {
 	sdl: string
 }
 
-export const generateGraphQLSchemaFromModels = (ddl=''): Promise<SchemaResponse> => {
-	return new Promise((resolve, reject) => {
-		setTimeout(() => {
-			resolve(sampleModelsResponse)
-		}, 2000)
-	})
+export const generateGraphQLSchemaFromModels = async (ddl=sampleDGDL): Promise<SchemaResponse> => {
+	try {
+		const ddglJson: any = loadYaml(ddl);
+		const response = await fetch(DGDL_PROCESSING_SCHEMA_API, {
+			method: 'POST',
+			body: JSON.stringify(ddglJson)
+		})
+		if (response.status >= 300) {
+			throw new Error('failed processing the DGDL yaml');
+		}
+		const resJson: SchemaResponse = await response.json();
+		return resJson
+
+	} catch (e: any) {
+		console.error(e);
+		throw new Error(`Error: ${e.message || "failed generating GraphQL schema for the given YAML"}`)
+	}
 }
 
 export type Model = {
@@ -77,18 +91,7 @@ export const getGraphQLSchema = (schemaResponse: SchemaResponse) => {
 	}
 }
 
-const createGraphQLEnum = (values: string[]): GraphQLEnumType => {
-	return new GraphQLEnumType({
-	  name: 'RGB',
-	  values: values.reduce((valuesObj, v, i,) => ({
-	  	...valuesObj,
-	  	[v]: { value: i}
-	  }), {})
-	})
-}
-
 export const getModels = (boolExp: SchemaResponse['booleanExpressionNames'], schema: GraphQLSchema): Model[] => {
-
 
 	try {
 

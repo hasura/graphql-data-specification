@@ -15,8 +15,6 @@ export const useDGDLEditor = (initDgDl=sampleDGDL) => {
 			const schemaResponse = await generateGraphQLSchemaFromModels(dgdl);
 			const schema = await getGraphQLSchema(schemaResponse);
 			const models = await getModels(schemaResponse.booleanExpressionNames, schema);
-			console.log(models);
-			console.log(schema)
 			setGqlSchema(schema);
 			setModels(models)
 			setGeneratingGqlSchema(false);
@@ -34,8 +32,10 @@ export const useDGDLEditor = (initDgDl=sampleDGDL) => {
 		dgdl: value,
 		onDgdlChange: (v: string) => {
 			setGqlSchema(null)
+			setError('');
 			setValue(v)
 		},
-		models
+		models,
+		error
 	}
 }

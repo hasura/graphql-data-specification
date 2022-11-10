@@ -11,7 +11,7 @@ const DGDLEditor = dynamic(() => import('../components/DGDLEditor'), {
   ssr: false
 })
 
-const title = 'GDS'
+const title = 'GraphQL Data Specification'
 
 export default function Home() {
   const {
@@ -20,20 +20,21 @@ export default function Home() {
     generateGqlSchema,
     generatingGqlSchema,
     schema,
-    models
+    models,
+    error
   } = useDGDLEditor()
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>{title}</title>
+        <title>{`${title} - Playground`} </title>
         <meta name="description" content="Modern Standard for GraphQL APIs" />
         <link rel="icon" href="/hasura-icon-primary.svg" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Domain Graph Definition Language 
+          {title}&nbsp;Playground
         </h1>
 
         <p className={styles.description}>
@@ -49,6 +50,11 @@ export default function Home() {
                 onChange={onDgdlChange}
               />
             </ClientSideRender>
+            {
+              error && (
+                <p className="w-full text-left text-red-700 mt-1">{error}</p>
+              )
+            }
           </div>
           <div className="w-full flex justify-center">
           <button
@@ -67,13 +73,13 @@ export default function Home() {
           schema && (
             <>
               <div className={`w-full mb-4`}>
+                <NLSExplorer schema={schema} models={models}/>
+              </div>
+              <div className={`w-full mb-4`}>
                 <div className="mb-2">
                   <p>Explore the GraphQL schema</p>
                 </div>
                 <SchemaExplorer schema={schema}/>
-              </div>
-              <div className={`w-full mb-4`}>
-                <NLSExplorer schema={schema} models={models}/>
               </div>
             </>
           )
