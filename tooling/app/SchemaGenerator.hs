@@ -10,10 +10,11 @@ import GHC.Generics (Generic)
 import Language.GraphQL.Draft.Printer qualified as GraphQL.Printer
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Network.Wai.Handler.Warp (run)
+import Network.Wai.Middleware.Cors (simpleCors)
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import Schema qualified
-import Web.Twain qualified as Twain
 import System.IO qualified as IO
+import Web.Twain qualified as Twain
 
 data Schema = Schema
   { booleanExpressionNames :: Map.HashMap DDL.ModelName GraphQL.Name,
@@ -46,11 +47,12 @@ main = do
   IO.hFlush IO.stdout
   run 8080 $
     logStdout $
-      foldr
-        ($)
-        (Twain.notFound missing)
-        [ Twain.post "schema" getSchema
-        ]
+      simpleCors $
+        foldr
+          ($)
+          (Twain.notFound missing)
+          [ Twain.post "schema" getSchema
+          ]
 
 missing :: Twain.ResponderM a
 missing = Twain.send $ Twain.html "Not found..."
