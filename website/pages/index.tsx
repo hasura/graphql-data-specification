@@ -20,7 +20,8 @@ export default function Home() {
     generateGqlSchema,
     generatingGqlSchema,
     schema,
-    models
+    models,
+    error
   } = useDGDLEditor()
 
   return (
@@ -49,6 +50,11 @@ export default function Home() {
                 onChange={onDgdlChange}
               />
             </ClientSideRender>
+            {
+              error && (
+                <p className="w-full text-left text-red-700 mt-1">{error}</p>
+              )
+            }
           </div>
           <div className="w-full flex justify-center">
           <button

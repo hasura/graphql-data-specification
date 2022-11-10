@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/inflection": "^1.13.0",
+    "@types/js-yaml": "^4.0.5",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
@@ -21,6 +22,7 @@
     "graphql-ws": "^5.11.2",
     "inflection": "^1.13.4",
     "isomorphic-fetch": "^3.0.0",
+    "js-yaml": "^4.1.0",
     "next": "13.0.2",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
