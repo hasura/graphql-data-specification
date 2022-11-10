@@ -1,5 +1,8 @@
 import * as React from 'react';
 import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-yaml";
+import "ace-builds/src-noconflict/theme-dreamweaver";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 const DGDLEditor: React.VFC<{
 	value: string,
@@ -7,9 +10,6 @@ const DGDLEditor: React.VFC<{
 }> = ({onChange, value }) => {
 
 	React.useEffect(() => {
-		import("ace-builds/src-noconflict/mode-yaml");
-		import("ace-builds/src-noconflict/theme-github");
-		import("ace-builds/src-noconflict/ext-language_tools");
 	}, [])
 
 	return process.browser ? (
@@ -18,7 +18,7 @@ const DGDLEditor: React.VFC<{
 	    value={value}
 	    width="100%"
 	    fontSize="18px"
-	    theme="github"
+	    theme="dreamweaver"
 	    onChange={(value) => onChange(value)}
 	    name="dgdl-editor"
 	    editorProps={{ $blockScrolling: true }}
