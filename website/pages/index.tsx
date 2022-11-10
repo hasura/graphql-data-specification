@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{title} - Playground</title>
+        <title>{`${title} - Playground`} </title>
         <meta name="description" content="Modern Standard for GraphQL APIs" />
         <link rel="icon" href="/hasura-icon-primary.svg" />
       </Head>
@@ -73,13 +73,13 @@ export default function Home() {
           schema && (
             <>
               <div className={`w-full mb-4`}>
+                <NLSExplorer schema={schema} models={models}/>
+              </div>
+              <div className={`w-full mb-4`}>
                 <div className="mb-2">
                   <p>Explore the GraphQL schema</p>
                 </div>
                 <SchemaExplorer schema={schema}/>
-              </div>
-              <div className={`w-full mb-4`}>
-                <NLSExplorer schema={schema} models={models}/>
               </div>
             </>
           )
