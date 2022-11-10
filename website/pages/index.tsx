@@ -29,7 +29,7 @@ export default function Home() {
       <Head>
         <title>{`${title} - Playground`} </title>
         <meta name="description" content="Modern Standard for GraphQL APIs" />
-        <link rel="icon" href="/hasura-icon-primary.svg" />
+        <link rel="icon" href="/hasura-icon-mono-dark.svg" />
       </Head>
 
       <main className={styles.main}>
@@ -37,9 +37,22 @@ export default function Home() {
           {title}&nbsp;Playground
         </h1>
 
-        <p className={styles.description}>
+        <div className={styles.description}>
+          <p>
           Modern standard for powerful GraphQL APIs{' '}
-        </p>
+          </p>
+          <p className="text-sm">
+            Specification:&nbsp;
+            <a
+              href="https://github.com/hasura/gds"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500"
+            >
+              https://github.com/hasura/gds
+            </a>
+          </p>
+        </div>
         <div className={`${styles.grid} flex-col`}>
         <div className="flex flex-col mb-4 w-full">
           <p className="w-full mb-2">Enter your DGDL Yaml</p>
@@ -98,7 +111,7 @@ export default function Home() {
             Made by{' '}
           </p>
           <span className={styles.logo}>
-            <Image src="/hasura-icon-primary.svg" alt="Hasura Logo" width={80} height={20} />
+            <Image src="/hasura-brand.svg" alt="Hasura Logo" width={80} height={20} />
           </span>
         </a>
       </footer>
