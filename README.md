@@ -1,13 +1,12 @@
 # GraphQL Data Specification (GDS)
 
-GDS is a fluent GraphQL API specification for trans
-al, analytical and streaming workloads across multiple data sources that contain semantically related data.
+GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
 
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
 	- Automated query planning (compilation with JSON aggregation > data-loader > n+1)
-	- Automated caching (cache-key discovery)
 	- Authorization rules integrated into data fetching automatically
+	- Automated caching (cache-key discovery)
 - Security
 	- Intuitive fine-grained authorization
 	- Declarative
