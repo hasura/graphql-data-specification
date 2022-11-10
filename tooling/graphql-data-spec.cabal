@@ -136,6 +136,10 @@ library
       Schema.Model.ListArguments
       Schema.Model.Type.BooleanExpression.Definition
       Schema.Model.Type.BooleanExpression.Name
+      Schema.Model.Type.BooleanExpressionAggregate.Definition
+      Schema.Model.Type.BooleanExpressionAggregate.Name
+      Schema.Model.Type.BooleanExpressionAggregateFunction.Name
+      Schema.Model.Type.BooleanExpressionAggregateFunction.Definition
       Schema.Model.Type.ComparisonExpression.Definition
       Schema.Model.Type.ComparisonExpression.Name
       Schema.Model.Type.SelectionSetFields.Definition

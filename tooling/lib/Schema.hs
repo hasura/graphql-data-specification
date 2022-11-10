@@ -9,6 +9,7 @@ where
 
 import Control.Monad (forM)
 import DDL qualified
+import Data.Coerce (coerce)
 import Data.HashMap.Strict qualified as Map
 import Data.HashSet qualified as Set
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
@@ -16,6 +17,8 @@ import Schema.Context
 import Schema.Model.Type.AggregateFunctionFields.Definition qualified as SelectionSetAggregateFunctionFields
 import Schema.Model.Type.BooleanExpression.Definition qualified as BooleanExpression
 import Schema.Model.Type.BooleanExpression.Name qualified as BooleanExpression
+import Schema.Model.Type.BooleanExpressionAggregate.Definition qualified as BooleanExpressionAggregate
+import Schema.Model.Type.BooleanExpressionAggregateFunction.Definition qualified as BooleanExpressionAggregateFunction
 import Schema.Model.Type.ComparisonExpression.Definition qualified as ComparisonExpression
 import Schema.Model.Type.SelectableField.Definition qualified as SelectableField
 import Schema.Model.Type.SelectionSetAggregate.Definition qualified as SelectionSetAggregate
@@ -23,7 +26,6 @@ import Schema.Model.Type.SelectionSetFields.Definition qualified as SelectionSet
 import Schema.Model.Type.SelectionSetGroup.Definition qualified as SelectionSetGroup
 import Schema.Type.QueryRoot.Definition qualified as QueryRoot
 import Schema.Type.QueryRoot.Name qualified as QueryRoot
-import Data.Coerce (coerce)
 
 type GraphQLTypeMap =
   Map.HashMap TypeGenerationRequest (GraphQL.TypeDefinition () GraphQL.InputValueDefinition)
@@ -86,6 +88,13 @@ generateTypeDefinition = \case
   TGRBooleanExpression modelName -> do
     model <- getModel $ coerce modelName
     GraphQL.TypeDefinitionInputObject <$> BooleanExpression.definition model
+  TGRBooleanExpressionAggregate modelName -> do
+    model <- getModel $ coerce modelName
+    GraphQL.TypeDefinitionInputObject <$> BooleanExpressionAggregate.definition model
+  TGRBooleanExpressionAggregateFunction modelName functionName -> do
+    model <- getModel $ coerce modelName
+    GraphQL.TypeDefinitionInputObject
+      <$> BooleanExpressionAggregateFunction.definition model functionName
   TGRComparisonExpression scalarName -> do
     GraphQL.TypeDefinitionInputObject <$> ComparisonExpression.definition scalarName
   TGRSelectionSetGroup modelName ->

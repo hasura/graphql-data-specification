@@ -21,7 +21,7 @@ instance Json.ToJSON EdgeKind where
 
 instance Json.FromJSON EdgeKind
 
-newtype EdgeName = EdgeName {getEdgeName :: Text}
+newtype EdgeName = EdgeName {wrapped :: Text}
   deriving (Show, Eq, Generic, Json.FromJSON, Json.ToJSON, Hashable)
 
 data Edge modelReference = Edge

@@ -25,6 +25,8 @@ import GHC.Generics (Generic)
 import Language.GraphQL.Draft.Syntax qualified as GraphQL
 import Schema.Model.Type.AggregateFunctionFields.Name qualified as SelectionSetAggregateFunctionFields
 import Schema.Model.Type.BooleanExpression.Name qualified as BooleanExpression
+import Schema.Model.Type.BooleanExpressionAggregate.Name qualified as BooleanExpressionAggregate
+import Schema.Model.Type.BooleanExpressionAggregateFunction.Name qualified as BooleanExpressionAggregateFunction
 import Schema.Model.Type.ComparisonExpression.Name qualified as ComparisonExpression
 import Schema.Model.Type.SelectableField.Name qualified as SelectableField
 import Schema.Model.Type.SelectionSetAggregate.Name qualified as SelectionSetAggregate
@@ -41,6 +43,8 @@ data TypeGenerationRequest
   | TGRSelectableField DDL.ModelName
   | TGRSelectionSetGroup DDL.ModelName
   | TGRBooleanExpression DDL.ModelName
+  | TGRBooleanExpressionAggregate DDL.ModelName
+  | TGRBooleanExpressionAggregateFunction DDL.ModelName DDL.AggregationFunctionName
   | TGRComparisonExpression DDL.ScalarName
   | TGRQueryRoot
   deriving (Show, Eq, Generic)
@@ -70,6 +74,9 @@ getTypeName request = do
     TGRSelectionSetGroup modelName -> SelectionSetGroup.name modelName
     TGRComparisonExpression scalarName -> ComparisonExpression.name scalarName
     TGRBooleanExpression modelName -> BooleanExpression.name modelName
+    TGRBooleanExpressionAggregate modelName -> BooleanExpressionAggregate.name modelName
+    TGRBooleanExpressionAggregateFunction modelName functionName ->
+      BooleanExpressionAggregateFunction.name modelName functionName
     TGRQueryRoot -> QueryRoot.name
 
 getModel :: DDL.EntityName -> Generate DDL.ModelDTO
