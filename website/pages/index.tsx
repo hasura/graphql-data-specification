@@ -11,7 +11,7 @@ const DGDLEditor = dynamic(() => import('../components/DGDLEditor'), {
   ssr: false
 })
 
-const title = 'GDS'
+const title = 'GraphQL Data Specification'
 
 export default function Home() {
   const {
@@ -27,14 +27,14 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{title}</title>
+        <title>{title} - Playground</title>
         <meta name="description" content="Modern Standard for GraphQL APIs" />
         <link rel="icon" href="/hasura-icon-primary.svg" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Domain Graph Definition Language 
+          {title}&nbsp;Playground
         </h1>
 
         <p className={styles.description}>
