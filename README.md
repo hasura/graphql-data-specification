@@ -1,6 +1,9 @@
 # GraphQL Data Specification (GDS)
 
-**Status**: DRAFT. This specification is still heavily a WIP and currently an early draft. We are currently eager and ready to invite collaboration. We will achieve completion once this specifcation is entirely formalized and also has a reference implemention (currently in `/tooling`).
+*Here is the [talk at Enterprise GraphQL Conf '22](https://hasura.io/enterprisegraphql/?aliId=egc_2022_rec) motivating the need and introducing the key ideas in this specification.*
+
+
+**Status**: DRAFT. This specification is still heavily a WIP and currently an early draft. We will achieve completion once this specifcation is entirely formalized and also has a reference implemention (currently in `/tooling`).
 
 **Contact**: If you or your organization is interested in collaborating on the specification and/or working on a GraphQL Data API platform, reach out to us at: graphql.data@hasura.io and we'd love to exchange notes.
 
