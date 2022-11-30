@@ -179,7 +179,7 @@ Predicate functions are key to implementing filter arguments in the final GraphQ
 
 Predicate functions (represented as boolean expressions) are the core of what allow validation, filtering and fine-grained security when accessing or operating on a data graph.
 
-### Nodel Level Security
+### Node Level Security
 
 Node level security is a authorization policy engine that allows creating fine-grained policies and privileges to scope access and operations on a data graph for end users.
 
