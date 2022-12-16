@@ -7,7 +7,7 @@
 
 **Contact**: If you or your organization is interested in collaborating on the specification and/or working on a GraphQL Data API platform, reach out to us at: graphql.data@hasura.io and we'd love to exchange notes.
 
-GDS is a fluent GraphQL API specification for transactional, analytical and streaming workloads across multiple data sources that contain semantically related data.
+GDS is a GraphQL API specification for accesssing transactional, analytical and streaming data across multiple data sources that contain semantically related data. Accessing refers to reading, writing or subscribing to data.
 
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
