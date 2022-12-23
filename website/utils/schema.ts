@@ -122,14 +122,22 @@ export const getModels = (boolExp: SchemaResponse['booleanExpressionNames'], sch
 	}
 }
 
-export const generateNlsTypesFromModels = (models: Model[], modelName: string) => {
+type NlsRule = {
+	fields: GraphQLList<GraphQLType>,
+	constraint: GraphQLInputType
+}
+
+export const generateNlsTypesFromModels = (models: Model[], modelName: string): NlsRule => {
 	
 	const map = {};
 
 	const model = models.find(m => m.name === modelName);
 
 	if (!model) {
-		return {}
+		return {
+			fields: [],
+			constraint: {},
+		} as any;
 	}
 
 	return {
@@ -137,4 +145,3 @@ export const generateNlsTypesFromModels = (models: Model[], modelName: string) =
 		constraint: model.boolExpression.type
 	}
 }
-
