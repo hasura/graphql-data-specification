@@ -10,13 +10,20 @@ import isoFetch from 'isomorphic-fetch';
 import '@graphiql/react/dist/style.css'
 import 'graphiql/graphiql.css';
 
+const defaultNlsRule = `
+{
+  "fields": [],
+  "constraint": {}
+}
+`
+
 export const NLSExplorer: React.VFC<{ schema: GraphQLSchema, models: Model[]}> = (props) => {
 
   const { schema, models } = props;
 
   const [allowRender, setAllowRender] = React.useState(false);
   const [variableTypes, setVariableTypes] = React.useState<any>(undefined);
-  const [variables, setVariables] = React.useState('');
+  const [variables, setVariables] = React.useState(defaultNlsRule);
   const onVariablesChange = (v: string) => {
   	setVariables(v);
   }
@@ -74,6 +81,7 @@ export const NLSExplorer: React.VFC<{ schema: GraphQLSchema, models: Model[]}> =
         	<NLSEditor variableTypes={variableTypes} schema={schema} modelName={model?.name || ''} onVariablesChange={onVariablesChange}/>
         </div>
       </GraphiQLProvider>
+      <p className="text-gray-400 text-sm">Hit Ctrl+Space for autocompletion</p>
     </div>
   ) : null;
 }
@@ -83,7 +91,7 @@ const NLSEditor: React.VFC<{variableTypes: any, schema: GraphQLSchema, modelName
 
   React.useEffect(() => {
   	if (variableEditor) {
-  		onVariablesChange("")
+  		onVariablesChange(defaultNlsRule)
   	}
   }, [modelName])
 

@@ -27,6 +27,7 @@ export const SchemaExplorer: React.VFC<{ schema: GraphQLSchema}> = (props) => {
       <div className="graphiql-container h-96 border border border-gray-200 rounded" style={{maxHeight: '100%', height: '400px'}}>
         <QueryEditor/>
       </div>
+      <p className="text-gray-400 text-sm">Hit Ctrl+Space for autocompletion</p>
     </GraphiQLProvider>
   ) : null;
 }
