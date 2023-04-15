@@ -7,7 +7,7 @@
 
 **Contact**: If you or your organization is interested in collaborating on the specification and/or working on a GraphQL Data API platform, reach out to us at: graphql.data@hasura.io and we'd love to exchange notes.
 
-GDS is a GraphQL API specification for accesssing transactional, analytical and streaming data across multiple data sources that contain semantically related data. Accessing refers to reading, writing or subscribing to data.
+GDS is a GraphQL API specification for accessing transactional, analytical and streaming data across multiple data sources that contain semantically related data. Accessing refers to reading, writing, and subscribing to data.
 
 GDS solves for the following requirements:
 - High performance out of the box: high-concurrency & low-latency
@@ -42,7 +42,7 @@ The DGDL has the following concepts:
 - [Predicate functions](#predicate-functions)
 
 ### Model
-A model that is backed by a data source and connected to other models in the same or other data sources. This model indicates whether it can be read from, and written to.
+A model is backed by a data source and connected to other models in the same or other data sources. The model indicates whether it can be read from, and written to.
 ```
 Model
   name :: String
@@ -62,7 +62,7 @@ A virtual model is a complex entity of the domain that may not exist concretely 
 A virtual model would typically be used to represent one of 3 types of concepts:
 1. A complex property of a model
 2. A piece of data that is required as an input to a data API request
-3. A peice of data is output from a data API request
+3. A piece of data that is output from a data API request
 
 Like a model, a virtual model can also be semantically connected to other models and virtual models in the domain's data graph.
 
@@ -83,30 +83,30 @@ Fields and edges represent properties of a model or a virtual model. Fields are 
 ```
 
 Field
-	name :: FieldName 
+	name :: FieldName
 	input :: VirtualModel
 	output :: FieldType
 
 FieldType
-	FieldTypeNamed FieldTypeName | 
-	FieldTypeList FieldType | 
+	FieldTypeNamed FieldTypeName |
+	FieldTypeList FieldType |
 	FieldTypeNotNull FieldType
 
-FieldTypeName 
-	FieldTypeNameScalar ScalarFieldTypeName | 
-	FieldTypeNameVirtualModel VirtualModel | 
+FieldTypeName
+	FieldTypeNameScalar ScalarFieldTypeName |
+	FieldTypeNameVirtualModel VirtualModel |
 	FieldTypeNameEnum EnumName
 
-ScalarFieldTypeName 
-	Int | 
+ScalarFieldTypeName
+	Int |
 	String |
-	Boolean | 
-	Id | ... | 
+	Boolean |
+	Id | ... |
 
 Edge
 	name :: String
 	target :: VirtualModel | Model
-  kind :: Object | Array
+	kind :: Object | Array
 
 Enum
 	name :: String
@@ -120,20 +120,20 @@ Commands are methods that operate on the domain graph. They take a node as an in
 ```
 Command
 	name :: String
-  input :: VirtualModel
-  output :: VirtualModel
-  operationType :: Read | Write
+	input :: VirtualModel
+	output :: VirtualModel
+	operationType :: Read | Write
 ```
 
 ### Aggregation functions
 
-Any list of models or list of virtual models can be aggregated over using aggregation functions. These aggregation functions are composed along with [predicate functions](#predicate-functions) and are also available in the final GraphQL API that is exposed.
+Any list of models or list of virtual models can be aggregated over using aggregation functions. They are exposed in the final GraphQL API. Aggregation functions can be composed with [predicate functions](#predicate-functions).
 
 **For every model or virtual model, the following aggregation function is generated:**
 ```
 // Input
 ModelAggregateExpression: {
-	groupBySet: [ModelScalarField], 
+	groupBySet: [ModelScalarField],
 	aggregatedFields: [
 		{AggregationOperator: {arguments:..., ModelField}}
 	],
@@ -148,7 +148,9 @@ AggregatedModel:
 
 ### Predicate functions
 
-Predicate functions operate on input and return a `true` or a `false`. Since they are type-safe, predicate functions rely on boolean expressions that are unique to each model and virtual model and allow the composition of fields, edges & aggregation functions.
+Predicate functions operate on input and return a `true` or a `false`.
+
+They are boolean expressions that are unique to each model and virtual model. Since they are type-safe, they allow the composition of fields, edges & aggregation functions.
 
 Predicate functions are key to implementing filter arguments in the final GraphQL API and are used for [Node Level Security](#node-level-security)
 
