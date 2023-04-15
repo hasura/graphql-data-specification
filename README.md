@@ -52,8 +52,8 @@ Model
   insertable :: Boolean
   updateable :: Boolean  // (only if selectable)
   deleteable :: Boolean  // (only if selectable)
-  implements :: [VirtualModelName]
-  implemented_by :: [VirtualModelName]
+  implements :: [VirtualModel]
+  implemented_by :: [VirtualModel]
 ```
 
 ### Virtual Model
@@ -71,8 +71,8 @@ VirtualModel
 	name :: String
 	fields :: [Field]
 	edges :: [Edge]
-	implements :: [VirtualModelName]
-	implemented_by :: [VirtualModelName]
+	implements :: [VirtualModel]
+	implemented_by :: [VirtualModel]
 ```
 
 ### Fields & edges
@@ -83,34 +83,29 @@ Fields and edges represent properties of a model or a virtual model. Fields are 
 ```
 
 Field
-	name :: FieldName 
-	input :: VirtualModel
-	output :: FieldType
+	name :: String
+	output :: FieldValue
 
-FieldType
-	FieldTypeNamed FieldTypeName | 
-	FieldTypeList FieldType | 
-	FieldTypeNotNull FieldType
+FieldValue
+    FieldValueNamed |
+    FieldValueList FieldValueNamed |
+    FieldValueNotNull FieldValueNamed
 
-FieldTypeName 
-	FieldTypeNameScalar ScalarFieldTypeName | 
-	FieldTypeNameVirtualModel VirtualModel | 
-	FieldTypeNameEnum EnumName
+FieldValueNamed
+    FieldValueScalar |
+    FieldValueEnum |
+    VirtualModel
 
-ScalarFieldTypeName 
-	Int | 
-	String |
-	Boolean | 
-	Id | ... | 
+FieldValueScalar
+    IntValue | StringValue | BooleanValue | IdValue | ...
+
+FieldValueEnum
+    IntValue | StringValue
 
 Edge
 	name :: String
-	target :: VirtualModel | Model
-  kind :: Object | Array
-
-Enum
-	name :: String
-	values: [String]
+	target :: Model | VirtualModel
+	kind :: Object | Array
 ```
 
 ### Commands
@@ -120,9 +115,9 @@ Commands are methods that operate on the domain graph. They take a node as an in
 ```
 Command
 	name :: String
-  input :: VirtualModel
-  output :: VirtualModel
-  operationType :: Read | Write
+	input :: VirtualModel
+	output :: VirtualModel
+	operationType :: Read | Write
 ```
 
 ### Aggregation functions
@@ -131,19 +126,28 @@ Any list of models or list of virtual models can be aggregated over using aggreg
 
 **For every model or virtual model, the following aggregation function is generated:**
 ```
-// Input
-ModelAggregateExpression: {
-	groupBySet: [ModelScalarField], 
-	aggregatedFields: [
-		{AggregationOperator: {arguments:..., ModelField}}
-	],
-	where: ModelBooleanExpression
-}
+ModelAggregationFunction
+    ModelAggregationInput -> ModelAggregationOutput
 
-// Output
-AggregatedModel:
-	groupBySet: [ModelScalarField]
-	aggregatedFields: [ModelField]
+ModelAggregationInput
+    groupBySet :: [Field]
+    aggregatedFields :: [AggregatedField]
+    where :: ModelBooleanExpression
+
+AggregatedField
+    aggregationOperator
+    arguments
+    modelField :: Field
+
+ModelAggregationOutput
+    groupBySet :: [Field]
+    aggregatedFieldResults :: [AggregatedFieldResult]
+
+AggregatedFieldResult
+    result :: [AggregateValue]
+
+AggregateValue
+    FieldValueScalar | [AggregateValue]
 ```
 
 ### Predicate functions
