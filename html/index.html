@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<!-- Built with spec-md https://spec-md.com -->
+<html>
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>GraphQL Data Specification</title>
+<style>@media (prefers-color-scheme: light){:root{--color-foreground: #333333;--color-background: #ffffff;--color-light-grey: #ccc;--color-grey: #666666;--color-white: #fff;--color-link: #3b5998;--color-subsection-link: var(--color-foreground);--color-toc-link: var(--color-foreground);--color-toc-id: var(--color-link);--color-toggle-border: #bbc;--color-sidebar-background: #f0f0f0;--color-sidebar-viewing-link: #8b9;--color-sidebar-toggle-button: rgba(0, 0, 0, .7);--color-sidebar-shadow-inset: rgba(0, 0, 0, .05);--color-sidebar-shadow: rgba(0, 0, 0, .04);--color-sidebar-large-shadow: rgba(0, 0, 0, .08);--color-pre-background: #fafafa;--color-pre-border: #e9e9e9;--color-code-background: rgba(0, 0, 0, .03);--color-spec-todo: var(--color-grey);--color-spec-example: #fafaff;--color-spec-example-border: #bbbbff;--color-spec-counter-example: #fffafa;--color-spec-counter-border: #ffbbbb;--color-spec-counter-example-link: #98593b;--color-spec-added-border: #396;--color-spec-removed-border: #933;--color-spec-prose: var(--color-grey);--color-spec-quantifier-list: var(--color-link);--color-spec-quantifier-optional: #83238e;--color-spec-condition: #1c7758;--color-spec-param: var(--color-grey);--color-spec-rx: var(--color-foreground);--color-spec-note-border: #f4e925;--color-spec-note-background: #fefef3;--color-spec-note-first-link: #6c6613;--color-source-link: var(--color-light-grey);--color-table-header: #f9f9f9;--color-table-header-border: #d0d0d0;--color-token-inserted: hsla(241, 71%, 34%, .69);--color-token-deleted: hsla(324, 92%, 33%, .74);--color-inserts-background: rgba(0, 200, 30, .08);--color-deletions-background: rgba(200, 0, 0, .08);--selection-background-color: #cacee0;--selection-background-color-link: #f0babe}.selection-link:hover{--selection-background-color: #3b5998}}@media (prefers-color-scheme: dark){:root{--color-foreground: #b6b6b6;--color-background: #262626;--color-light-grey: #373737;--color-grey: #828282;--color-white: rgb(29, 29, 29);--color-link: #89b7da;--color-subsection-link: var(--color-foreground);--color-toc-link: var(--color-foreground);--color-toc-id: var(--color-link);--color-toggle-border: #bbc;--color-sidebar-background: #323232;--color-sidebar-viewing-link: #8b9;--color-sidebar-toggle-button: rgba(220, 220, 220, .7);--color-sidebar-shadow-inset: rgba(0, 0, 0, .05);--color-sidebar-shadow: rgba(0, 0, 0, .04);--color-sidebar-large-shadow: rgba(0, 0, 0, .08);--color-pre-background: #2e2e2e;--color-pre-border: #3a3a3a;--color-code-background: rgba(41, 41, 41, .03);--color-spec-todo: var(--color-grey);--color-spec-example: #2b2b35;--color-spec-example-border: #4d4d6d;--color-spec-counter-example: #322828;--color-spec-counter-border: #664040;--color-spec-counter-example-link: #ff702d;--color-spec-added-border: #396;--color-spec-removed-border: #933;--color-spec-prose: var(--color-grey);--color-spec-quantifier-list: var(--color-link);--color-spec-quantifier-optional: #c689ce;--color-spec-condition: #6fa889;--color-spec-param: var(--color-grey);--color-spec-rx: var(--color-foreground);--color-spec-note-border: #605e39;--color-spec-note-background: #303028;--color-spec-note-first-link: #f0e330;--color-source-link: var(--color-grey);--color-table-header: #373737;--color-table-header-border: #525252;--color-token-inserted: hsla(241, 63%, 70%, .69);--color-token-deleted: hsla(325, 64%, 67%, .74);--color-inserts-background: rgba(0, 200, 30, .08);--color-deletions-background: rgba(200, 0, 0, .08);--selection-background-color: #656565;--selection-background-color-link: #f0babe}.selection-link:hover{--selection-background-color: #829edb}}:root{color:var(--color-foreground);background-color:var(--color-background);font-family:var(--font-family);font-size:15px;line-height:1.5;--mono-font-size: 13px;--indent: 1rem;--list-indent: 1.5rem;--dfn-indent: 0rem;--font-family: Cambria, "Palatino Linotype", Palatino, "Liberation Serif", serif;--font-family-monospace: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace}@media (min-width: 720px){:root{font-size:17px;--mono-font-size: 15px;--indent: 2rem;--list-indent: 2rem;--dfn-indent: 2rem}}body{margin:3rem 0 3rem}article{margin:0 1rem}@media (min-width: 720px){body{margin:6rem auto 3rem;max-width:800px;padding-left:75px;padding-right:clamp(0px,calc((100vw - 800px) * .25),75px)}}.source-link{display:none}@media screen and (min-width: 720px){.source-link{display:block;position:absolute;width:18px;fill:var(--color-source-link);opacity:.3}.source-link:hover{opacity:1}}.outdated-selection-link,.selection-link{position:absolute;display:block;color:var(--color-white);background:var(--selection-background-color);border-radius:4px;font-size:36px;height:23px;line-height:48px;text-align:center;text-decoration:none;width:25px;user-select:none;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none}.outdated-selection-link:hover,.selection-link:hover{text-decoration:none}.outdated-selection-link:before,.selection-link:before{border:5px solid transparent;content:"";height:0;margin-top:-5px;margin-right:-5px;position:absolute;right:1px;top:50%;width:0}@media (max-width: 719px){.outdated-selection-link:before,.selection-link:before{border-bottom-color:var(--selection-background-color);border-top:0;right:50%;top:1px}}@media (min-width: 720px){.outdated-selection-link:before,.selection-link:before{border-left-color:var(--selection-background-color);border-right:0;right:1px;top:50%}}.outdated-selection-link{background:var(--selection-background-color-link);font-size:21px;font-weight:800;line-height:27px}.outdated-selection-link:hover:after{content:"This selection content has changed since this link was created.";font:9pt/11pt var(--font-family);position:absolute;display:block;white-space:nowrap;padding:2px 5px 1px;top:-20px;background:black;color:var(--color-white)}a{color:var(--color-link);text-decoration:none}a:hover{text-decoration:underline}img{max-width:100%}dl{margin:1rem 0 1rem var(--dfn-indent)}dd{margin:.25em 0 .5em var(--indent)}dd+dd{margin-top:1rem}dfn,.spec-ref{font-style:italic}dfn>a,.spec-ref>a{color:inherit}h1,h2,h3,h4,h5,h6{font-weight:bold;margin:3em 0 1em;position:relative}@media (min-width: 720px){header>h1{margin:6em 0 3em}}h1{font-size:1.5em;margin-top:5em}h2,h3{font-size:1.25em}h4,h5,h6{font-size:1em}section{padding-top:1rem;margin-top:-1rem}section.subsec>h6{margin-top:2em}section.subsec>h6>a{color:var(--color-subsection-link)}section .spec-secid{margin-right:1ex}@media (min-width: 720px){section .spec-secid{position:absolute;right:100%;text-align:right;white-space:nowrap}}footer{font-size:75%;opacity:.5;text-align:center;margin-top:12rem}.spec-toc{margin:1rem 0 3rem}.spec-toc .title{content:"Contents";display:block;font-weight:bold;margin:5em 0 1em}.spec-toc .spec-secid{margin-right:1ex}.spec-toc ol{list-style:none;padding-left:0;margin-top:0;margin-bottom:0}.spec-toc ol ol{list-style:none;padding-left:2ex;margin-bottom:.25em}.spec-toc li{position:relative;padding:5px 0 0 30px;margin:-5px 0 0 -30px}.spec-toc a{color:var(--color-toc-link)}.spec-toc a:hover{text-decoration:none}.spec-toc a .spec-secid{color:var(--color-toc-id)}.spec-toc a:hover .spec-secid{text-decoration:underline}.spec-toc .toggle{display:none}.spec-toc .toggle+label{cursor:pointer;left:6px;opacity:1;padding:5px 6px 5px 7px;position:absolute;top:6px;transform:rotate(0deg);transition:all .18s ease-in-out}.spec-toc .toggle+label:after{border-color:transparent transparent transparent var(--color-toggle-border);border-style:solid;border-width:6px 0 6px 7px;content:" ";display:block;height:0;width:0}@media (pointer: fine){.spec-toc .toggle+label{left:10px;padding:3px 5px 3px 6px;top:8px}}.spec-toc .toggle:checked+label{transform:rotate(90deg)}@media (hover: hover){.spec-toc li:not(:hover)>.toggle:checked+label{opacity:0}}.spec-toc .toggle:not(:checked)~ol{max-height:0;overflow:hidden;margin:0}.spec-sidebar-toggle{display:none}.spec-sidebar-toggle+label>.spec-sidebar-button{position:fixed;right:0;top:0;padding:10px 15px;font-size:30px;color:var(--color-sidebar-toggle-button);z-index:2;cursor:pointer;user-select:none;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none}.spec-sidebar-toggle:checked+label:after{content:"";position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0}.spec-sidebar{display:none;position:fixed;right:0;top:0;width:min(320px,calc(100vw - 48px));font-size:14px;line-height:1.75;overflow-y:scroll;height:100%;padding:0 0 5rem 30px;box-sizing:border-box;background:var(--color-sidebar-background);box-shadow:inset 1px 0 var(--color-sidebar-shadow-inset),-4px 0 8px -2px var(--color-sidebar-shadow);overscroll-behavior:contain}.spec-sidebar{user-select:none;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none}.spec-sidebar-toggle:checked~.spec-sidebar{display:block}.spec-sidebar .viewing>a:after{color:var(--color-sidebar-viewing-link);content:"\2022";margin-left:1ex}@media (min-width: 1220px){.spec-sidebar-toggle+label{display:none}.spec-sidebar{display:block;box-shadow:inset 1px 0 var(--color-sidebar-shadow-inset),inset 4px 0 8px -2px var(--color-sidebar-large-shadow)!important}body{padding-right:345px}}.spec-note{background:var(--color-spec-note-background);border-left:solid 4px var(--color-spec-note-border);margin:1rem -1rem;min-width:70vw;padding:8px 1rem 12px calc(1rem - 4px);width:-moz-fit-content;width:-webkit-fit-content;width:fit-content}@media (min-width: 720px){.spec-note{min-width:416px}}.spec-note>a:first-child{color:var(--color-spec-note-first-link);display:block;font:italic 11pt/18pt var(--font-family);opacity:.6;user-select:none}.spec-todo{color:var(--color-spec-todo);margin:1em 0 1em 5em;min-height:1em}.spec-todo::before{content:"todo";display:block;float:left;margin-left:-5em;text-transform:uppercase}.spec-index ol{list-style-type:none;margin:0 0 0 var(--indent);padding:0;column-width:210px;column-gap:var(--indent)}.spec-index ol li{width:min-content;white-space:nowrap}pre,code{font-family:var(--font-family-monospace);font-size:var(--mono-font-size);font-weight:inherit}code{background:var(--color-code-background);margin:-2px -1px;padding:3px 3px;white-space:pre-wrap}pre>code{background:none;font-weight:inherit;margin:0;padding:0;white-space:pre}pre{background:var(--color-pre-background);border-left:solid 4px var(--color-pre-border);margin:1rem -1rem;min-width:70vw;padding:12px 1rem 12px calc(1rem - 4px);width:-moz-fit-content;width:-webkit-fit-content;width:fit-content;max-width:calc(100vw - 2rem);overflow-y:auto}@media (min-width: 720px){pre{min-width:40ch}}.spec-example{background:var(--color-spec-example);border-left:solid 4px var(--color-spec-example-border);padding-top:8px}.spec-counter-example{background:var(--color-spec-counter-example);border-left:solid 4px var(--color-spec-counter-border);padding-top:8px}.spec-example>a,.spec-counter-example>a{display:block;font:italic 11pt/18pt var(--font-family);opacity:.6;user-select:none}.spec-counter-example>a{color:var(--color-spec-counter-example-link)}table{border-collapse:collapse}th{background-color:var(--color-table-header)}td,th{border:1px solid var(--color-table-header-border);padding:.4em;vertical-align:baseline}ol,ul{padding-left:var(--list-indent)}li>ol,li>ul{margin-top:.25em;margin-bottom:.5em}li+li{margin-top:.25em}li.task{list-style-type:none;position:relative}li.task>input:first-child{margin-left:0;position:absolute;transform:translateX(calc(-100% - 1ch))}ins{background-color:var(--color-inserts-background);text-decoration:none}del{background-color:var(--color-deletions-background)}.spec-added,.spec-removed{border-left:4px solid;margin-left:-18px;padding-left:14px}.spec-added{border-color:var(--color-spec-added-border)}.spec-removed{border-color:var(--color-spec-removed-border);text-decoration:line-through}.spec-keyword{font-weight:bold}.spec-string{font-family:var(--font-family-monospace);font-size:85%;white-space:pre}var{font-style:italic}*[data-name]{transition:.15s background ease-out;border-radius:2px;padding:0 3px;margin:0 -3px}.spec-semantic,.spec-algo{margin:1rem 0 1rem var(--dfn-indent)}.spec-semantic>.spec-nt::after,.spec-algo>.spec-call:first-child::after{content:":";font-style:normal;font-weight:bold;margin-left:1ex}.spec-semantic ol,.spec-semantic ol ol ol ol,.spec-algo ol,.spec-algo ol ol ol ol{list-style-type:decimal}.spec-semantic ol ol,.spec-semantic ol ol ol ol ol,.spec-algo ol ol,.spec-algo ol ol ol ol ol{list-style-type:lower-alpha}.spec-semantic ol ol ol,.spec-semantic ol ol ol ol ol ol,.spec-algo ol ol ol,.spec-algo ol ol ol ol ol ol{list-style-type:lower-roman}.spec-call>a{color:inherit}.spec-production{margin:1rem 0 1rem var(--dfn-indent)}.spec-production>.spec-nt::after{content:":";font-style:normal;font-weight:bold;margin:0 1ex}.spec-semantic.d2>.spec-nt::after,.spec-production.d2>.spec-nt::after{content:"::"}.spec-semantic.d3>.spec-nt::after,.spec-production.d3>.spec-nt::after{content:":::"}.spec-production>.spec-rhs{line-height:1.1;margin:.25em 0 .5em calc(2 * var(--indent));text-indent:calc(-1 * var(--indent))}.spec-semantic>.spec-rhs{display:inline-block;text-indent:calc(-1 * var(--indent));margin-left:calc(1ex + var(--indent))}.spec-rhs>*{text-indent:0}.spec-oneof{display:inline}.spec-oneof::before{content:"one of";font-style:normal;font-weight:bold}.spec-oneof-grid{max-width:calc(100vw - 2rem);overflow:auto;margin:-1ex -1rem;padding:1ex 1rem}.spec-oneof-grid>table{margin-left:var(--indent)}.spec-oneof .spec-rhs{border:none;margin:0;padding:0 0 0 1rem;vertical-align:baseline;white-space:pre}.spec-oneof .spec-rhs:first-child{padding:0}.spec-rhs .spec-constrained:not(:first-child),.spec-rhs .spec-quantified:not(:first-child),.spec-rhs .spec-nt:not(:first-child),.spec-rhs .spec-t:not(:first-child),.spec-rhs .spec-rx:not(:first-child),.spec-rhs .spec-prose:not(:first-child),.spec-rhs .spec-empty:not(:first-child),.spec-rhs .spec-lookahead:not(:first-child){margin-left:1ex;display:inline-block}.spec-condition{font-size:85%}.spec-condition::before{content:"[if "}.spec-condition.not::before{content:"[if not "}.spec-condition::after{content:"]"}.spec-empty,.spec-prose{color:var(--color-spec-prose)}.spec-nt{font-style:italic}.spec-nt>a{color:inherit}.spec-quantifiers,.spec-params{font-size:65%;font-style:normal;vertical-align:sub}.spec-quantifier.list{color:var(--color-spec-quantifier-list)}.spec-quantifier.optional{color:var(--color-spec-quantifier-optional)}.spec-params,.spec-condition{color:var(--color-spec-condition)}.spec-params::before{content:"["}.spec-params::after{content:"]"}.spec-quantifier:not(:last-child)::after,.spec-param:not(:last-child)::after{color:var(--color-spec-param);content:", "}.spec-param.conditional::before{content:"?"}.spec-param.negated::before{content:"!"}.spec-t,.spec-rx{color:var(--color-spec-rx);font-family:var(--font-family-monospace);font-weight:bold}.spec-butnot::before{color:var(--color-grey);content:"but not";font-family:var(--font-family);font-weight:normal;margin-right:1ex}.spec-butnot>*:not(:first-child)::before{color:var(--color-grey);content:"or";font-family:var(--font-family);font-weight:normal;margin-right:1ex}.spec-rhs .spec-oneof::before,.spec-rhs .spec-butnot::before{margin-left:1ex}.spec-lookahead>*{margin:0!important}.spec-lookahead>*:not(:first-child)::before{color:var(--color-grey);content:", ";font-family:var(--font-family);font-style:normal;font-weight:normal}.spec-lookahead::before{color:var(--color-grey);content:"[lookahead = ";font-family:var(--font-family);font-style:normal;font-weight:normal}.spec-lookahead.not::before{content:"[lookahead \2260  "}.spec-lookahead.set::before{content:"[lookahead \2208  {";margin-right:0}.spec-lookahead.set.not::before{content:"[lookahead \2209  {"}.spec-lookahead.ntset::before{content:"[lookahead \2208  ";margin-right:0}.spec-lookahead.ntset.not::before{content:"[lookahead \2209  "}.spec-lookahead::after{color:var(--color-grey);content:"]"}.spec-lookahead.set::after{content:"}]"}code[class*=language-],pre[class*=language-]{color:var(--color-prism-foreground);background:none;text-shadow:0 1px var(--color-prism-text-shadow);font-family:var(--font-family-monospace);font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,code[class*=language-] ::-moz-selection{text-shadow:none;background:var(--color-prism-background)}pre[class*=language-]::selection,pre[class*=language-] ::selection,code[class*=language-]::selection,code[class*=language-] ::selection{text-shadow:none;background:var(--color-prism-background)}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:var(--color-prism-block-background)}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.atrule,.token.attr-value,.token.keyword,.token.property,.token.selector,.token.attr-name,.token.builtin,.token.entity,.token.url,.token.inserted{color:var(--color-token-inserted);background:none}.token.tag,.token.boolean,.token.number,.token.string,.token.char,.token.constant,.token.symbol,.token.regex,.token.important,.token.variable,.token.function,.token.class-name,.token.deleted{color:var(--color-token-deleted)}.token.comment,.token.prolog,.token.doctype,.token.cdata,.token.description{color:inherit;opacity:.3}.token.punctuation{color:inherit;opacity:.5}.token.operator,.token.namespace{color:inherit;opacity:.7}</style>
+<script>(function(){var r,a=[];document.addEventListener("readystatechange",function(){document.readyState==="interactive"&&u()});function u(){var n=document.querySelector('label[for="spec-sidebar-toggle"]');n.addEventListener("scroll",o),n.addEventListener("touchmove",o);function o(d){d.preventDefault()}for(var t=document.getElementsByTagName("section"),e=0;e<t.length;e++)t[e].getAttribute("secid")&&a.push(t[e]);var i=window.scrollY,c=!1;window.addEventListener("scroll",function(d){i=window.scrollY,c||(c=!0,window.requestAnimationFrame(function(){s(i),c=!1}))})}function s(n){for(var o=n+document.documentElement.clientHeight/4,t,e=a.length-1;e>=0;e--)if(a[e].offsetTop<o){t=a[e];break}var i=t&&t.getAttribute("secid");i!==r&&(r&&l(r,!1),i&&l(i,!0),r=i)}function l(n,o){document.getElementById("_sidebar_"+n).className=o?"viewing":"";for(var t=n.split(".");t.length;){var e=document.getElementById("_toggle_"+t.join("."));e&&(e.checked=o),t.pop()}}s(window.scrollY);})();</script>
+<script>(function(){var n=document.getElementsByTagName("style")[0].sheet,e;function u(){e&&(n.deleteRule(e),e=void 0)}function d(t){u(),e=n.insertRule('*[data-name="'+t+'"] { background: rgba(230,215,0,0.12); }',n.cssRules.length)}document.documentElement.addEventListener("mouseover",function(t){var a=t.target.attributes["data-name"];a&&d(a.value)});document.documentElement.addEventListener("mouseout",u);})();</script>
+<script>(function(){var R="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",o,p,r,g;document.addEventListener("selectionchange",E);window.addEventListener("resize",C);window.addEventListener("hashchange",x);window.addEventListener("load",x);function S(n){y(new URL(n.target.href))}function x(){y(window.location)}function y(n){var e=n.hash.match(/^#sel-([A-Za-z0-9-_]+)$/);if(!!e){g=e[1],r=k(g);var t=r.getBoundingClientRect(),d=Math.max(20,Math.floor((window.innerHeight-t.height)*.4));window.scrollTo(0,window.scrollY+t.y-d);var c=document.getSelection();c.empty(),c.addRange(r),C()}}function E(n){var e=document.getSelection();if(e.isCollapsed)o&&(o.parentNode.removeChild(o),o=null);else{var t=e.getRangeAt(0);(!r||t.compareBoundaryPoints(Range.START_TO_START,r)!==0||t.compareBoundaryPoints(Range.END_TO_END,r)!==0)&&(r=t,g=B(r),C())}}function C(){if(!!r){p||(p=document.getElementsByTagName("article")[0]),o||(o=document.createElement("a"),document.body.appendChild(o)),o.href="#sel-"+g,o.onclick=S,o.className=r.isOutdated?"outdated-selection-link":"selection-link",o.innerText=r.isOutdated?"!":"\u201F";var n=window.innerWidth<720,e=r.getBoundingClientRect();if(n)o.style.left=Math.floor(e.x+e.width/2+window.scrollX-13)+"px",o.style.top=Math.floor(e.bottom+window.scrollY+10)+"px";else{var t=p.getBoundingClientRect().x;o.style.left=Math.floor(t+window.scrollX-37)+"px",o.style.top=Math.floor(e.y+window.scrollY-3)+"px"}}}function B(n){var e="",t=N(n.startContainer),d=N(n.endContainer),c=M(t,d);return l(c),l(t.slice(c.length).concat(n.startOffset)),l(d.slice(c.length).concat(n.endOffset)),i(L(n.toString())),e;function i(a){do e+=R[a&31|(a>31?32:0)],a>>=5;while(a>0)}function l(a){i(a.length);for(var h=0;h<a.length;h++)i(a[h])}}function k(n){for(var e=new Array(64),t=0;t<64;t++)e[R.charCodeAt(t)]=t;var d=0,c=m(),i=m(),l=m(),a=w(),h=i.pop(),P=O(c.concat(i)),T=l.pop(),A=O(c.concat(l)),u=document.createRange();return u.setStart(P,h),u.setEnd(A,T),u.isOutdated=a!==void 0&&a!==L(u.toString()),u;function w(){for(var s=0,v=0;d<n.length;){var f=e[n.charCodeAt(d++)];if(s|=(f&31)<<v,v+=5,f<32)return s}}function m(){var s=w();if(s!=null){for(var v=new Array(s),f=0;f<s;f++)v[f]=w();return v}}}function N(n){for(var e=[];n!=document.body;){var t=n.parentNode;e.push(Array.prototype.indexOf.call(t.childNodes,n)),n=t}return e.reverse()}function O(n){for(var e=document.body,t=0;t<n.length&&e;t++)e=e.childNodes[n[t]];return e}function M(n,e){for(var t=0;t<n.length&&t<e.length&&n[t]===e[t];)t++;return n.slice(0,t)}function L(n){for(var e=2166136261,t=0;t<n.length;++t)e^=n.charCodeAt(t),e+=(e<<1)+(e<<4)+(e<<7)+(e<<8)+(e<<24);return(e>>15^e)&32767}})();</script>
+</head>
+<body><article>
+<header>
+<h1>GraphQL Data Specification</h1>
+<section id="intro">
+<p>This document lays out GraphQL schema design principles &amp; standards for building data APIs.</p>
+<p>This is ideal for GraphQL or federated GraphQL schemas that need to:</p>
+<ol>
+<li>Provide a standardized API</li>
+<li>Provide a composable and fleixble design</li>
+<li>Balance domain-driven and consumer-driven design</li>
+<li>Support lightweight and high-velocity iterations on schema design</li>
+</ol>
+</section>
+<nav class="spec-toc">
+<div class="title">Contents</div>
+<ol>
+<li><a href="#sec-Schema-design-principles"><span class="spec-secid">1</span>Schema design principles</a></li>
+<li><a href="#sec-Objects"><span class="spec-secid">2</span>Objects</a><ol>
+<li><a href="#sec-Objects.Example"><span class="spec-secid">2.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Global-ID"><span class="spec-secid">3</span>Global ID</a><ol>
+<li><a href="#sec-Global-ID.Example"><span class="spec-secid">3.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Selection-Models-"><span class="spec-secid">4</span>Selection (Models)</a><ol>
+<li><a href="#sec-Single-Object-Selection"><span class="spec-secid">4.1</span>Single Object Selection</a><ol>
+<li><a href="#sec-Single-Object-Selection.Example"><span class="spec-secid">4.1.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Multi-Object-Selection"><span class="spec-secid">4.2</span>Multi Object Selection</a><ol>
+<li><a href="#sec-Multi-Object-Selection.Example"><span class="spec-secid">4.2.1</span>Example</a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a href="#sec-Filtering"><span class="spec-secid">5</span>Filtering</a><ol>
+<li><a href="#sec-Filtering.Example"><span class="spec-secid">5.1</span>Example</a></li>
+<li><a href="#sec-Filter-expression-grammar"><span class="spec-secid">5.2</span>Filter expression grammar</a></li>
+</ol>
+</li>
+<li><a href="#sec-Sorting"><span class="spec-secid">6</span>Sorting</a><ol>
+<li><a href="#sec-Sorting.Example"><span class="spec-secid">6.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Pagination"><span class="spec-secid">7</span>Pagination</a><ol>
+<li><a href="#sec-Pagination.Example"><span class="spec-secid">7.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Aggregation"><span class="spec-secid">8</span>Aggregation</a></li>
+<li><a href="#sec-Relay"><span class="spec-secid">9</span>Relay</a><ol>
+<li><a href="#sec-Relay.Example"><span class="spec-secid">9.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Commands"><span class="spec-secid">10</span>Commands</a><ol>
+<li><a href="#sec-Commands.Example"><span class="spec-secid">10.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Relationships"><span class="spec-secid">11</span>Relationships</a><ol>
+<li><a href="#sec-Relationships.Example"><span class="spec-secid">11.1</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Query-Composition"><span class="spec-secid">12</span>Query Composition</a><ol>
+<li><a href="#sec-Query-Composition.Example"><span class="spec-secid">12.1</span>Example</a></li>
+<li><a href="#sec-Query-Composition.Example"><span class="spec-secid">12.2</span>Example</a></li>
+</ol>
+</li>
+<li><a href="#sec-Filtering-Sorting-Composition"><span class="spec-secid">13</span>Filtering / Sorting Composition</a><ol>
+<li><a href="#sec-Examples"><span class="spec-secid">13.1</span>Examples</a></li>
+</ol>
+</li>
+<li><a href="#index"><span class="spec-secid">§</span>Index</a></li>
+</ol>
+</nav>
+</header>
+<section id="sec-Schema-design-principles" secid="1">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Schema-design-principles">1</a></span>Schema design principles</h1>
+<p>When building a GraphQL schema, the schema design process should follow the following principles:</p>
+<ol>
+<li>The GraphQL schema design process allows multiple stakeholders to own parts of the schema.</li>
+<li>Domain owners design their part of the GraphQL schema in a way that accurately reflects the domain. These might require keeping in mind the needs of multiple API consumers domain driven design.</li>
+<li>Consumers should be able to drive independent additions to the GraphQL schema that represent consumer specific needs.</li>
+<li>Any entity in the GraphQL schema should either represent a resource, a unit of data, or a method, a unit of business logic.</li>
+</ol>
+</section>
+<section id="sec-Objects" secid="2">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Objects">2</a></span>Objects</h1>
+<p>Every data object in the described domain, e.g., a User, an Order, or a Product in an e-commerce application, has a GraphQL <code>type</code>.</p>
+<section id="sec-Objects.Example" secid="2.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Objects.Example">2.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Global-ID" secid="3">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Global-ID">3</a></span>Global ID</h1>
+<p>An <code>id</code> field in the object can represent a globally unique id for the object. This allows the Object type to implement the <a href="">Relay Node</a> interface.</p>
+<section id="sec-Global-ID.Example" secid="3.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Global-ID.Example">3.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">User</span> <span class="token keyword">implements</span> <span class="token class-name">Node</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Selection-Models-" secid="4">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Selection-Models-">4</a></span>Selection (Models)</h1>
+<p>Models are collections of objects that can be queried in standardized ways and represent standardized <em>selection</em>, <em>query</em> or <em>read</em> operations.</p>
+<section id="sec-Single-Object-Selection" secid="4.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Single-Object-Selection">4.1</a></span>Single Object Selection</h2>
+<p>If one or more fields can uniquely identify an object in a model, a root field should allow querying the object using those fields.</p>
+<section id="sec-Single-Object-Selection.Example" secid="4.1.1">
+<h3><span class="spec-secid" title="link to this section"><a href="#sec-Single-Object-Selection.Example">4.1.1</a></span>Example</h3>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">user_by_id</span><span class="token punctuation">(</span><span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">User</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Multi-Object-Selection" secid="4.2">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Multi-Object-Selection">4.2</a></span>Multi Object Selection</h2>
+<p>To fetch multiple objects, a root field should return a list of objects.</p>
+<section id="sec-Multi-Object-Selection.Example" secid="4.2.1">
+<h3><span class="spec-secid" title="link to this section"><a href="#sec-Multi-Object-Selection.Example">4.2.1</a></span>Example</h3>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">users</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>By default semantics, this should return all the objects in the model. Additional input paramenters can control the set of objects returned by the model.</p>
+</section>
+</section>
+</section>
+<section id="sec-Filtering" secid="5">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Filtering">5</a></span>Filtering</h1>
+<p>A <code>where</code> input parameter for a model allows querying a model based on some condition on one or more of its fields. This includes any <a href="#sec-Relationships">relationship</a> fields that have been defined on the object.</p>
+<p>A particular field will support specific comparison operators. The <code>where</code> input paramenter should support operators for AND / OR / NOT to compose a filter expression.</p>
+<section id="sec-Filtering.Example" secid="5.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Filtering.Example">5.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">users</span><span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token class-name">User_boolean_exp</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">input</span> <span class="token object">User_boolean_exp</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">_and</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User_boolean_exp</span><span class="token operator">!</span><span class="token punctuation">]</span>
+  <span class="token attr-name">_or</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User_boolean_exp</span><span class="token operator">!</span><span class="token punctuation">]</span>
+  <span class="token attr-name">_not</span><span class="token punctuation">:</span> <span class="token class-name">User_boolean_exp</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token class-name">Int_comparison_exp</span>
+  <span class="token attr-name">first_name</span><span class="token punctuation">:</span> <span class="token class-name">String_comparison_exp</span>
+  <span class="token attr-name">last_name</span><span class="token punctuation">:</span> <span class="token class-name">String_comparison_exp</span>
+  <span class="token attr-name">email</span><span class="token punctuation">:</span> <span class="token class-name">String_comparison_exp</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">input</span> <span class="token object">Int_comparison_exp</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">_eq</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token attr-name">_lt</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token attr-name">_gt</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token attr-name">_lte</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token attr-name">_gte</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token attr-name">_in</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">Int</span><span class="token operator">!</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">input</span> <span class="token object">String_comparison_exp</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">_eq</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">_in</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token scalar">Int</span><span class="token operator">!</span><span class="token punctuation">]</span>
+  <span class="token attr-name">_like</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+<section id="sec-Filter-expression-grammar" secid="5.2">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Filter-expression-grammar">5.2</a></span>Filter expression grammar</h2>
+<div class="spec-production" id="Where">
+<span class="spec-nt"><a href="#Where" data-name="Where">Where</a></span><div class="spec-rhs"><span class="spec-nt"><a href="#ModelBooleanExpression" data-name="ModelBooleanExpression">ModelBooleanExpression</a></span></div>
+</div>
+<div class="spec-production" id="ModelBooleanExpression">
+<span class="spec-nt"><a href="#ModelBooleanExpression" data-name="ModelBooleanExpression">ModelBooleanExpression</a></span><div class="spec-rhs"><span class="spec-nt"><span data-name="And">And</span></span><span class="spec-quantified"><span class="spec-nt"><a href="#ModelBooleanExpression" data-name="ModelBooleanExpression">ModelBooleanExpression</a></span><span class="spec-quantifiers"><span class="spec-quantifier list">list</span></span></span></div>
+<div class="spec-rhs"><span class="spec-nt"><span data-name="Or">Or</span></span><span class="spec-quantified"><span class="spec-nt"><a href="#ModelBooleanExpression" data-name="ModelBooleanExpression">ModelBooleanExpression</a></span><span class="spec-quantifiers"><span class="spec-quantifier list">list</span></span></span></div>
+<div class="spec-rhs"><span class="spec-nt"><span data-name="Not">Not</span></span><span class="spec-nt"><a href="#ModelBooleanExpression" data-name="ModelBooleanExpression">ModelBooleanExpression</a></span></div>
+<div class="spec-rhs"><span class="spec-nt"><a href="#FieldComparisonExpression" data-name="FieldComparisonExpression">FieldComparisonExpression</a></span></div>
+</div>
+<div class="spec-production" id="FieldComparisonExpression">
+<span class="spec-nt"><a href="#FieldComparisonExpression" data-name="FieldComparisonExpression">FieldComparisonExpression</a></span><div class="spec-rhs"><span class="spec-nt"><a href="#Field" data-name="Field">Field</a></span><span class="spec-nt"><span data-name="Operator">Operator</span></span><span class="spec-nt"><span data-name="UserInputValue">UserInputValue</span></span></div>
+</div>
+<div class="spec-production" id="Field">
+<span class="spec-nt"><a href="#Field" data-name="Field">Field</a></span><div class="spec-rhs"><span class="spec-nt"><span data-name="ObjectField1">ObjectField1</span></span></div>
+<div class="spec-rhs"><span class="spec-nt"><span data-name="ObjectField2">ObjectField2</span></span></div>
+<div class="spec-rhs"><span class="spec-nt"><span data-name="ObjectField3">ObjectField3</span></span></div>
+<div class="spec-rhs"><span class="spec-t">...</span></div>
+</div>
+</section>
+</section>
+<section id="sec-Sorting" secid="6">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Sorting">6</a></span>Sorting</h1>
+<p>OpenDD can generate an input for sorting the objects when querying a model based on one or more of its fields. This includes any relationship fields that have been defined on the object. Multiple fields can be used as the sort key, with the order of specification determining which one gets applied first.</p>
+<section id="sec-Sorting.Example" secid="6.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Sorting.Example">6.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">users</span><span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User_order_by_exp</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">input</span> <span class="token object">User_order_by_exp</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token class-name">OrderByDirection</span>
+  <span class="token attr-name">first_name</span><span class="token punctuation">:</span> <span class="token class-name">OrderByDirection</span>
+  <span class="token attr-name">last_name</span><span class="token punctuation">:</span> <span class="token class-name">OrderByDirection</span>
+  <span class="token attr-name">email</span><span class="token punctuation">:</span> <span class="token class-name">OrderByDirection</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">enum</span> <span class="token class-name">OrderByDirection</span> <span class="token punctuation">{</span>
+  <span class="token property">Asc</span><span class="token punctuation">,</span>
+  <span class="token property">Desc</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Pagination" secid="7">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Pagination">7</a></span>Pagination</h1>
+<p>OpenDD can generate input arguments for paginating through the objects returned when querying a model.</p>
+<section id="sec-Pagination.Example" secid="7.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Pagination.Example">7.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">users</span><span class="token punctuation">(</span><span class="token attr-name">limit</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token punctuation">,</span> <span class="token attr-name">offset</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">User</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Aggregation" secid="8">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Aggregation">8</a></span>Aggregation</h1>
+<p><strong>TODO:</strong> Add after v3 supports aggregation.</p>
+</section>
+<section id="sec-Relay" secid="9">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Relay">9</a></span>Relay</h1>
+<p>The GraphQL API generated by OpenDD implements the Relay API and has a <code>node</code> query root field that can be used to retrieve specific objects using their global ID.</p>
+<section id="sec-Relay.Example" secid="9.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Relay.Example">9.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Query</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">node</span><span class="token punctuation">(</span><span class="token attr-name">id</span><span class="token punctuation">:</span> <span class="token scalar">ID</span><span class="token operator">!</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token class-name">Node</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Commands" secid="10">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Commands">10</a></span>Commands</h1>
+<p>Commands are functions which take in some arguments and produce an output. The semantics of commands except for arguments and output are opaque.</p>
+<p>Commands can be made available for invocation either at the query root or the mutation root of the command GraphQL API.</p>
+<section id="sec-Commands.Example" secid="10.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Commands.Example">10.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Mutation</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">validateDiscountCoupon</span><span class="token punctuation">(</span><span class="token attr-name">coupon_code</span><span class="token punctuation">:</span> <span class="token scalar">String</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token property">bool</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Relationships" secid="11">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Relationships">11</a></span>Relationships</h1>
+<p>Objects can be augmented with related information by defining a relationship from the object to a model or a command. This way, queries can be flexibly composed.</p>
+<p>Creating a relationship adds a relationship field to the generated object type which can be used to query the related model or command.</p>
+<section id="sec-Relationships.Example" secid="11.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Relationships.Example">11.1</a></span>Example</h2>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">Order</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">order_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">product_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">user</span><span class="token punctuation">:</span> <span class="token class-name">User</span> // <span class="token property">relationship</span> <span class="token property">from</span> <span class="token property">Order</span>.<span class="token property">user_id</span> <span class="token property">to</span> <span class="token property">User</span>.<span class="token property">user_id</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Query-Composition" secid="12">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Query-Composition">12</a></span>Query Composition</h1>
+<p>For a has-many (array) relationship, the input parameters of multi-object model selection are available to use, so queries across relationships can be flexibly composed.</p>
+<section id="sec-Query-Composition.Example" secid="12.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Query-Composition.Example">12.1</a></span>Example</h2>
+<p>If there is a has-many relationship from User to orders and a has-one (object) relationship from Order to users:</p>
+<pre data-language="graphql"><code><span class="token keyword">type</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+  <span class="token attr-name">user_id</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token operator">!</span>
+  <span class="token attr-name">name</span><span class="token punctuation">:</span> <span class="token scalar">String</span>
+  <span class="token attr-name">orders</span><span class="token punctuation">(</span>
+    <span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token class-name">Orders_bool_exp</span><span class="token punctuation">,</span>
+    <span class="token attr-name">order_by</span><span class="token punctuation">:</span> <span class="token class-name">Orders_order_by_exp</span><span class="token punctuation">,</span>
+    <span class="token attr-name">limit</span><span class="token punctuation">:</span> <span class="token scalar">Int</span><span class="token punctuation">,</span>
+    <span class="token attr-name">offset</span><span class="token punctuation">:</span> <span class="token scalar">Int</span>
+  <span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">Order</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Because relationships, filtering, and sorting are semantically meaningful in OpenDD, this allows for efficiently issuing such composable queries without resorting to N+1 database queries, even when the two related models come from different databases.</p>
+</section>
+<section id="sec-Query-Composition.Example" secid="12.2">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Query-Composition.Example">12.2</a></span>Example</h2>
+<p>The following query results in only 2 database lookups, one for users and one for orders, as opposed to 11 lookups if resolving traditionally. Such efficient composition is impossible to achieve with generic resolver-based approaches even when using data loaders.</p>
+<pre data-language="graphql"><code><span class="token keyword">query</span> <span class="token punctuation">{</span>
+  <span class="token property-query">users</span><span class="token punctuation">(</span><span class="token attr-name">limit</span><span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token property">user_id</span>
+    <span class="token property-query">orders</span><span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">total</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">_gt</span><span class="token punctuation">:</span> <span class="token number">100</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token attr-name">order_by</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">order_date</span><span class="token punctuation">:</span> <span class="token constant">DESC</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token property">order_id</span>
+      <span class="token property">product_id</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</section>
+</section>
+<section id="sec-Filtering-Sorting-Composition" secid="13">
+<h1><span class="spec-secid" title="link to this section"><a href="#sec-Filtering-Sorting-Composition">13</a></span>Filtering / Sorting Composition</h1>
+<p>Relationship fields themselves can be used for filtering, sorting, and aggregating a model containing the source object.</p>
+<section id="sec-Examples" secid="13.1">
+<h2><span class="spec-secid" title="link to this section"><a href="#sec-Examples">13.1</a></span>Examples</h2>
+<p>To query all users who ordered a particular product where orders are not a part of the users model:</p>
+<pre data-language="graphql"><code><span class="token keyword">query</span> <span class="token punctuation">{</span>
+  <span class="token property-query">users</span><span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">orders</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">product_id</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">_eq</span><span class="token punctuation">:</span> <span class="token string">"product_1"</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token property">user_id</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>To sort all orders of a particular product by the email of the user that placed the order, where the user email is not a part of the orders model:</p>
+<pre data-language="graphql"><code><span class="token keyword">query</span> <span class="token punctuation">{</span>
+  <span class="token property-query">orders</span><span class="token punctuation">(</span><span class="token attr-name">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">product_id</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">_eq</span><span class="token punctuation">:</span> <span class="token number">1</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token attr-name">order_by</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">user</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token attr-name">email</span><span class="token punctuation">:</span> <span class="token constant">ASC</span> <span class="token punctuation">}</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token property">order_id</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This is possible since OpenDD has a semantic understanding of relationships and predicates. Doing this would be impossible in generic resolver-based approaches. </p>
+</section>
+</section>
+<section id="index" secid="index" class="spec-index">
+<h1>
+<span class="spec-secid" title="link to the index"><a href="#index">§</a></span>Index</h1>
+<ol>
+<li><a href="#Field">Field</a></li>
+<li><a href="#FieldComparisonExpression">FieldComparisonExpression</a></li>
+<li><a href="#ModelBooleanExpression">ModelBooleanExpression</a></li>
+<li><a href="#Where">Where</a></li>
+</ol>
+</section>
+</article>
+<footer>
+Written in <a href="https://spec-md.com" target="_blank">Spec Markdown</a>.</footer>
+<input hidden class="spec-sidebar-toggle" type="checkbox" id="spec-sidebar-toggle" aria-hidden /><label for="spec-sidebar-toggle" aria-hidden><div class="spec-sidebar-button">&#x2630;</div></label>
+<div class="spec-sidebar" aria-hidden>
+<div class="spec-toc">
+<div class="title"><a href="#">GraphQL Data Specification</a></div>
+<ol><li id="_sidebar_1"><a href="#sec-Schema-design-principles"><span class="spec-secid">1</span>Schema design principles</a></li>
+<li id="_sidebar_2"><a href="#sec-Objects"><span class="spec-secid">2</span>Objects</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_2" /><label for="_toggle_2"></label>
+<ol>
+<li id="_sidebar_2.1"><a href="#sec-Objects.Example"><span class="spec-secid">2.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_3"><a href="#sec-Global-ID"><span class="spec-secid">3</span>Global ID</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_3" /><label for="_toggle_3"></label>
+<ol>
+<li id="_sidebar_3.1"><a href="#sec-Global-ID.Example"><span class="spec-secid">3.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_4"><a href="#sec-Selection-Models-"><span class="spec-secid">4</span>Selection (Models)</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_4" /><label for="_toggle_4"></label>
+<ol>
+<li id="_sidebar_4.1"><a href="#sec-Single-Object-Selection"><span class="spec-secid">4.1</span>Single Object Selection</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_4.1" /><label for="_toggle_4.1"></label>
+<ol>
+<li id="_sidebar_4.1.1"><a href="#sec-Single-Object-Selection.Example"><span class="spec-secid">4.1.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_4.2"><a href="#sec-Multi-Object-Selection"><span class="spec-secid">4.2</span>Multi Object Selection</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_4.2" /><label for="_toggle_4.2"></label>
+<ol>
+<li id="_sidebar_4.2.1"><a href="#sec-Multi-Object-Selection.Example"><span class="spec-secid">4.2.1</span>Example</a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li id="_sidebar_5"><a href="#sec-Filtering"><span class="spec-secid">5</span>Filtering</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_5" /><label for="_toggle_5"></label>
+<ol>
+<li id="_sidebar_5.1"><a href="#sec-Filtering.Example"><span class="spec-secid">5.1</span>Example</a></li>
+<li id="_sidebar_5.2"><a href="#sec-Filter-expression-grammar"><span class="spec-secid">5.2</span>Filter expression grammar</a></li>
+</ol>
+</li>
+<li id="_sidebar_6"><a href="#sec-Sorting"><span class="spec-secid">6</span>Sorting</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_6" /><label for="_toggle_6"></label>
+<ol>
+<li id="_sidebar_6.1"><a href="#sec-Sorting.Example"><span class="spec-secid">6.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_7"><a href="#sec-Pagination"><span class="spec-secid">7</span>Pagination</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_7" /><label for="_toggle_7"></label>
+<ol>
+<li id="_sidebar_7.1"><a href="#sec-Pagination.Example"><span class="spec-secid">7.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_8"><a href="#sec-Aggregation"><span class="spec-secid">8</span>Aggregation</a></li>
+<li id="_sidebar_9"><a href="#sec-Relay"><span class="spec-secid">9</span>Relay</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_9" /><label for="_toggle_9"></label>
+<ol>
+<li id="_sidebar_9.1"><a href="#sec-Relay.Example"><span class="spec-secid">9.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_10"><a href="#sec-Commands"><span class="spec-secid">10</span>Commands</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_10" /><label for="_toggle_10"></label>
+<ol>
+<li id="_sidebar_10.1"><a href="#sec-Commands.Example"><span class="spec-secid">10.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_11"><a href="#sec-Relationships"><span class="spec-secid">11</span>Relationships</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_11" /><label for="_toggle_11"></label>
+<ol>
+<li id="_sidebar_11.1"><a href="#sec-Relationships.Example"><span class="spec-secid">11.1</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_12"><a href="#sec-Query-Composition"><span class="spec-secid">12</span>Query Composition</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_12" /><label for="_toggle_12"></label>
+<ol>
+<li id="_sidebar_12.1"><a href="#sec-Query-Composition.Example"><span class="spec-secid">12.1</span>Example</a></li>
+<li id="_sidebar_12.2"><a href="#sec-Query-Composition.Example"><span class="spec-secid">12.2</span>Example</a></li>
+</ol>
+</li>
+<li id="_sidebar_13"><a href="#sec-Filtering-Sorting-Composition"><span class="spec-secid">13</span>Filtering / Sorting Composition</a>
+<input hidden class="toggle" type="checkbox" id="_toggle_13" /><label for="_toggle_13"></label>
+<ol>
+<li id="_sidebar_13.1"><a href="#sec-Examples"><span class="spec-secid">13.1</span>Examples</a></li>
+</ol>
+</li>
+<li id="_sidebar_index"><a href="#index"><span class="spec-secid">§</span>Index</a></li>
+</ol>
+</div>
+</div>
+</body>
+</html>

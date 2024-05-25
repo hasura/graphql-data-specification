@@ -1,1 +1,0 @@
-export const DGDL_PROCESSING_SCHEMA_API= `${process.env.NEXT_PUBLIC_DGDL_PROCESSING_API_BASE}/schema`;
