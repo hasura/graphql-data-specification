@@ -1,6 +1,6 @@
 # GraphQL Data Specification
 
-The specification is written in `gds-spec.md` and uses [spec-md][https://spec-md.com].
+The specification is written in `gds-spec.md` and uses [spec-md](https://spec-md.com).
 
 ## Build & preview
 
