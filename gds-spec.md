@@ -1,6 +1,6 @@
 # GraphQL Data Specification
 
-This document lays out GraphQL schema design principles & standards for building data APIs.
+This document lays out GraphQL schema design principles & standards for building data APIs. It builds upon the standardized supergraph modeling conventions described in the [open data domain specification (OpenDD)](https://github.com/hasura/graphql-engine/tree/master/v3/crates/open-dds) - the metadata language for the new Hasura API engine. More information on the supergraph modeling framework can be found [here](https://hasura.io/docs/3.0/supergraph-modeling/overview/).
 
 This is ideal for GraphQL or federated GraphQL schemas that need to:
 
@@ -173,7 +173,47 @@ type Query {
 
 ## Aggregation
 
-**TODO:** Add after v3 supports aggregation.
+OpenDD can create aggregate expressions to calculate collective properties of data when querying a model. These expressions allow you to summarize fields, including those in relationships, by specifying aggregation methods such as sum, average, maximum, and minimum through the. Additionally, custom aggregation functions can be applied using, enabling more tailored data analysis. The order of fields and expressions in the query determines the sequence in which these operations are applied.
+
+```graphql
+type Query {
+  user_aggregate(where: User_aggregate_exp): User_aggregate_fields
+}
+
+input User_aggregate_exp {
+  salary: Float_aggregate_exp
+  count: Boolean
+  countDistinct: Boolean
+  customAggregation: [CustomAggregationInput]
+}
+
+type User_aggregate_fields {
+  salary_sum: Float
+  salary_avg: Float
+  salary_max: Float
+  salary_min: Float
+  total_count: Int
+  distinct_count: Int
+  customAggregationResults: [CustomAggregationResult]
+}
+
+input CustomAggregationInput {
+  functionName: String
+  field: String
+}
+
+type CustomAggregationResult {
+  functionName: String
+  result: Float
+}
+
+input Float_aggregate_exp {
+  sum: Float
+  avg: Float
+  max: Float
+  min: Float
+}
+```
 
 ## Relay
 
@@ -189,17 +229,49 @@ type Query {
 
 ## Commands
 
-Commands are functions which take in some arguments and produce an output. The semantics of commands except for arguments and output are opaque.
+Commands are functions which take in some arguments and produce an output, representing actions or 'verbs' within the data domain (e.g., LogUserIn). The semantics of commands except for arguments and output are opaque. 
 
-Commands can be made available for invocation either at the query root or the mutation root of the command GraphQL API.
+Commands can be made available for invocation either at the query root or the mutation root of the command GraphQL API. Commands are particularly useful for tasks such as validating, processing, or enriching data, invoking external APIs, or performing specific actions like logging a user in.
 
-### Example
+### Examples
+
+Following command represents the result of a login attempt, indicating success, and optionally returning a token or an error message.
+
+```graphql
+type Mutation {
+  logUserIn(username: String!, password: String!): LoginResponse
+}
+```
+
+Following command verifies the validity of a provided coupon code and returns a boolean outcome.
 
 ```graphql
 type Mutation {
   validateDiscountCoupon(coupon_code: String): bool
 }
+
+type LoginResponse {
+  success: Boolean!
+  token: String
+  errorMessage: String
+}
 ```
+Following command searches for users based on a search string and returns a list of User objects.
+
+```graphql
+type Query {
+  findUsers(search: String): [User]
+}
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  role: String!
+}
+```
+## Events
+
+Coming soon convention for supporting streaming and live queries (GraphQL subscription)
 
 ## Relationships
 
@@ -218,7 +290,7 @@ type Order {
 }
 ```
 
-## Query Composition
+__Query Composition__
 
 For a has-many (array) relationship, the input parameters of multi-object model selection are available to use, so queries across relationships can be flexibly composed.
 
@@ -257,11 +329,11 @@ query {
 }
 ```
 
-## Filtering / Sorting Composition
+## Nested Composition
 
-Relationship fields themselves can be used for filtering, sorting, and aggregating a model containing the source object.
+Relationship fields themselves can be used for filtering, sorting, pagination and aggregating a model containing the source object.
 
-### Examples
+### Filtering Example
 
 To query all users who ordered a particular product where orders are not a part of the users model:
 
@@ -272,6 +344,7 @@ query {
   }
 }
 ```
+### Sorting Example
 
 To sort all orders of a particular product by the email of the user that placed the order, where the user email is not a part of the orders model:
 
@@ -284,3 +357,39 @@ query {
 ```
 
 This is possible since OpenDD has a semantic understanding of relationships and predicates. Doing this would be impossible in generic resolver-based approaches.
+
+### Pagination Example
+
+To paginate through orders of a specific product and sort them by the email of the user who placed the order—where the user email is not part of the orders model—this query is structured to handle nested pagination efficiently. It first paginates the orders with an offset and limit, then orders these results by the user’s email. Additionally, it demonstrates nested pagination by retrieving a paginated list of products associated with each order. 
+
+```graphql
+query {
+  orders(offset: 10, limit: 20, where: { product_id: { _eq: 1 } }, order_by: { user: { email: asc } }) {
+    order_id
+    user {
+      email
+    }
+    products(offset: 0, limit: 25, order_by: { name: asc }) {
+      product_id
+      name
+    }
+  }
+}
+```
+
+### Aggregation Example
+
+To aggregate the count of nested products within each order—where the products belong to a different model than orders—this query is structured to handle nested aggregation efficiently. It retrieves orders filtered by a specific product ID and, for each order, aggregates the count of associated products. This approach allows you to see how many products are linked to each order directly within the query, providing a clear view of the nested data relationships and their aggregation.
+
+```graphql
+query {
+  orders(limit: 10, where: { product_id: { _eq: 1 } }, order_by: { user: { email: asc } }) {
+    order_id
+    products_aggregate {
+      aggregate {
+        count
+      }
+    }
+  }
+}
+```
